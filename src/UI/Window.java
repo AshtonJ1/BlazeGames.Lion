@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package UI;
 
-import UI.Components.Component;
 import Game.Scene;
+import UI.Components.Component;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -13,9 +9,9 @@ import org.newdawn.slick.Input;
 
 /**
  *
- * @author Ashton
+ * @author Gage Orsburn
  */
-public final class Window
+public class Window
 {
     private float X, Y;
     private int Width, Height, StartX, StartY, Radius;
@@ -28,8 +24,8 @@ public final class Window
     {
         this.WindowTitle = WindowTitle;
         
-        this.setLocation(X, Y);
-        this.setSize(Width, Height, Radius);   
+        setLocation(X, Y);
+        setSize(Width, Height, Radius);   
         
         this.isFirstRender = true;
         this.isVisible = true;
@@ -86,7 +82,7 @@ public final class Window
         return isPinned;
     }
     
-    public void setLocation(float X, float Y)
+    public final void setLocation(float X, float Y)
     {
         this.X = X;
         this.Y = Y;
@@ -95,7 +91,7 @@ public final class Window
         this.StartY = (int)Y;
     }
     
-    public void setSize(int Width, int Height, int Radius)
+    public final void setSize(int Width, int Height, int Radius)
     {
         this.Width = Width;
         this.Height = Height;

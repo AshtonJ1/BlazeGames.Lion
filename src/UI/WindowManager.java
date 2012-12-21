@@ -1,11 +1,10 @@
 package UI;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
  *
- * @author Ashton
+ * @author Gage Orsburn
  */
 public class WindowManager
 {
