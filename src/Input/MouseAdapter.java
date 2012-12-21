@@ -33,7 +33,7 @@ public class MouseAdapter implements MouseListener
         @Override
         public void mousePressed(int button, int x, int y)
         {
-            //WindowManager.mousePressed(button, x, y);
+            WindowManager.mousePressed(button, x, y);
         }
         
         @Override

@@ -52,6 +52,13 @@ public class Window
                 component.doAction();
     }
     
+    public void stopAction(int ActionX, int ActionY)
+    {
+        for(Component component : Components)
+            if(component.Contains(ActionX, ActionY))
+                component.stopAction();
+    }
+    
     public void addComponent(Component component)
     {
         Components.add(component);

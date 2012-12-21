@@ -47,7 +47,7 @@ public class WindowManager
     public static void mousePressed(int button, int x, int y)
     {
         
-        CheckWindows(x, y);
+        /*CheckWindows(x, y);
         
         if(Windows.size() > 0 && Focused != -1)
         {
@@ -55,7 +55,19 @@ public class WindowManager
             
             if(window != null)
                 window.doAction(x, y);
-        }
+        }*/
+    }
+    
+        
+    public static void mouseReleased(int button, int x, int y)
+    {
+        /*if(Windows.size() > 0 && Focused != -1)
+        {
+            Window window = Windows.get(Focused);
+            
+            if(window != null)
+                window.stopAction(x, y); 
+        }*/
     }
     
     private static void CheckWindows(int X, int Y)
@@ -89,10 +101,5 @@ public class WindowManager
             return true;
         else
             return false;
-    }
-    
-    public static void mouseReleased(int button, int x, int y)
-    {
-        
     }
 }

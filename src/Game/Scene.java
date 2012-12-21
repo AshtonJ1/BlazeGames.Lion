@@ -5,8 +5,8 @@ import Core.Movement.*;
 import Input.KeyAdapter;
 import Input.MouseAdapter;
 import Network.ClientSocket;
-import UI.Components.Button;
 import UI.ActionEvent;
+import UI.Components.Button;
 import UI.Window;
 import UI.WindowManager;
 import java.util.HashMap;
@@ -110,7 +110,7 @@ public class Scene extends BasicGame
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            
         }
         
           
@@ -160,8 +160,8 @@ public class Scene extends BasicGame
                 if(Cam.isEntityInCamera(mob))
                     mob.Draw();
 
-            for(Player player : players.values())
-                player.Draw();
+            for(Player plyer : players.values())
+                plyer.Draw();
 
             player.Draw();
 
