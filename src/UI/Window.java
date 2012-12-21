@@ -131,11 +131,13 @@ public class Window
         {
             if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             {
+                if(Contains(input.getMouseX(), input.getMouseY()))
+                    WindowManager.requestFocus(this);
+                
                 if(MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown)
                 {
-                    WindowManager.requestFocus(this);
                     isMouseDown = true;
-
+                    
                     if(!isPinned)
                     {
                         if(isFirstRender)
