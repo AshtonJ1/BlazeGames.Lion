@@ -6,12 +6,12 @@ import org.newdawn.slick.Graphics;
 
 /**
  *
- * @author Ashton
+ * @author Gage Orsburn
  */
 
 public abstract class Component 
 {
-    private int AbsoluteX, AbsoluteY, X, Y, Width, Height, XPadding, YPadding, Radius;
+    private int AbsoluteX, AbsoluteY, X, Y, Width, Height, ContentWidth, ContentHeight, XPadding, YPadding, Radius;
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private boolean isEnabled;
     
@@ -27,6 +27,34 @@ public abstract class Component
     {
         if(!ActionEvents.contains(actionEvent))
             ActionEvents.add(actionEvent);
+    }
+    
+    public int getContentWidth()
+    {
+        return ContentWidth;
+    }
+    
+    public void setContentWidth(int ContentWidth)
+    {
+        this.ContentWidth = ContentWidth;
+    }
+    
+    public int getContentHeight()
+    {
+        return ContentHeight;
+    }
+    
+    public void setContentHeight(int ContentHeight)
+    {
+        this.ContentHeight = ContentHeight;
+    }
+    
+    public boolean isFitToContent()
+    {
+        if(Width == -1 || Height == -1)
+            return true;
+        else
+            return false;
     }
     
     public boolean isEnabled()
@@ -122,12 +150,9 @@ public abstract class Component
     
     public boolean Contains(int PointX, int PointY)
     {
-        System.out.println(PointX  + " = " + (AbsoluteX + Width + XPadding));
-        System.out.println(PointY  + " = " + (AbsoluteY + Height + YPadding));
-        
-        if(Width == -1 || Height == -1)
+        if(isFitToContent())
         {
-            if(PointX >= AbsoluteX && PointY >= AbsoluteY && PointX <= (AbsoluteX + Width + XPadding) && PointY <= (AbsoluteY + Height + YPadding))
+            if(PointX >= AbsoluteX && PointY >= AbsoluteY && PointX <= (AbsoluteX + ContentWidth + XPadding) && PointY <= (AbsoluteY + ContentHeight + YPadding))
                 return true;
             else
                 return false;
