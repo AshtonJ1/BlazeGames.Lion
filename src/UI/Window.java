@@ -117,13 +117,21 @@ public class Window
             return false;
     }
     
+    public boolean MenuContains(int PointX, int PointY)
+    {
+        if(PointX >= X+13 && PointY >= Y+7 && PointX <= (X-7+Width) && PointY <= (Y+29))
+            return true;
+        else
+            return false;
+    }
+    
     public void Render(Graphics g)
     {
         if(isVisible)
         {
             if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
             {
-                if(Contains(input.getMouseX(), input.getMouseY()) || isMouseDown)
+                if(MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown)
                 {
                     WindowManager.requestFocus(this);
                     isMouseDown = true;
@@ -155,17 +163,27 @@ public class Window
             g.setColor(new Color(12, 32, 50));
             g.fillRoundRect(X + 7, Y + 7, Width - 13, Height - 13, Radius);
             
-            g.setColor(new Color(7, 17, 26));
-            g.drawLine(X + 3, Y + 29, (X + Width) - 3, Y + 29);
-            g.drawLine(X + 3, Y + 28, (X + Width) - 3, Y + 28);
-            g.drawLine(X + 3, Y + 27, (X + Width) - 3, Y + 27);
-            g.drawLine(X + 3, Y + 26, (X + Width) - 3, Y + 26);
-            
-            g.setColor(Color.white);
-            g.drawString(this.WindowTitle, X + 10, Y + 7);
-            
-            for(Component component : Components)
-                component.Render(g, this.X + 8, this.Y + 30, this.Width, this.Height);
+            if(Radius == 0)
+            {
+                //Draw Close Button
+                
+                g.setColor(new Color(7, 17, 26));
+                g.drawLine(X + 3, Y + 29, (X + Width) - 3, Y + 29);
+                g.drawLine(X + 3, Y + 28, (X + Width) - 3, Y + 28);
+                g.drawLine(X + 3, Y + 27, (X + Width) - 3, Y + 27);
+                g.drawLine(X + 3, Y + 26, (X + Width) - 3, Y + 26);
+
+                g.setColor(Color.white);
+                g.drawString(this.WindowTitle, X + 10, Y + 7);
+
+                for(Component component : Components)
+                    component.Render(g, this.X + 8, this.Y + 30, this.Width, this.Height);
+            }
+            else
+            {
+                for(Component component : Components)
+                    component.Render(g, this.X, this.Y, this.Width, this.Height);
+            }
         }
     }
 }
