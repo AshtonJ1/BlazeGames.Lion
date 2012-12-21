@@ -20,11 +20,14 @@ public final class Window
     private float X, Y;
     private int Width, Height, StartX, StartY, Radius;
     private boolean isFirstRender, isVisible, isMouseDown, isPinned;
+    private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
     private Input input;
     
-    public Window(String Title, float X, float Y, int Width, int Height, int Radius,boolean ShowClose, boolean isPinned)
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, int Radius,boolean ShowClose, boolean isPinned)
     {
+        this.WindowTitle = WindowTitle;
+        
         this.setLocation(X, Y);
         this.setSize(Width, Height, Radius);   
         
@@ -36,14 +39,14 @@ public final class Window
         input = Scene.getInstance().input;
     }
     
-    public Window(String Title, float X, float Y, int Width, int Height, boolean ShowClose, boolean isPinned)
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean ShowClose, boolean isPinned)
     {
-        this(Title, X, Y, Width, Height, 0, ShowClose, isPinned);
+        this(WindowTitle, X, Y, Width, Height, 0, ShowClose, isPinned);
     }
     
-    public Window(String Title, float X, float Y, int Width, int Height)
+    public Window(String WindowTitle, float X, float Y, int Width, int Height)
     {
-        this(Title, X, Y, Width, Height, 10, true, false);
+        this(WindowTitle, X, Y, Width, Height, 0, true, false);
     }
     
     public void doAction(int ActionX, int ActionY)
@@ -147,7 +150,6 @@ public final class Window
                 isFirstRender = true;
             }
         
-            
             g.setColor(new Color(24, 24, 24));
             g.drawRoundRect(X, Y, Width, Height, Radius);
             g.setColor(new Color(98, 98, 98));
@@ -157,8 +159,17 @@ public final class Window
             g.setColor(new Color(12, 32, 50));
             g.fillRoundRect(X + 7, Y + 7, Width - 13, Height - 13, Radius);
             
+            g.setColor(new Color(7, 17, 26));
+            g.drawLine(X + 3, Y + 29, (X + Width) - 3, Y + 29);
+            g.drawLine(X + 3, Y + 28, (X + Width) - 3, Y + 28);
+            g.drawLine(X + 3, Y + 27, (X + Width) - 3, Y + 27);
+            g.drawLine(X + 3, Y + 26, (X + Width) - 3, Y + 26);
+            
+            g.setColor(Color.white);
+            g.drawString(this.WindowTitle, X + 10, Y + 7);
+            
             for(Component component : Components)
-                component.Render(g, this.X, this.Y, this.Width, this.Height);
+                component.Render(g, this.X + 8, this.Y + 30, this.Width, this.Height);
         }
     }
 }

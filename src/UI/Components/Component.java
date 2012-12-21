@@ -11,7 +11,7 @@ import org.newdawn.slick.Graphics;
 
 public abstract class Component 
 {
-    private int AbsoluteX, AbsoluteY, X, Y, Width, Height, XMargin, YMargin, Radius;
+    private int AbsoluteX, AbsoluteY, X, Y, Width, Height, XPadding, YPadding, Radius;
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private boolean isEnabled;
     
@@ -94,38 +94,51 @@ public abstract class Component
         return Height;
     }
     
-    public int getXMargin()
+    public int getXPadding()
     {
-        return XMargin;
+        return XPadding;
     }
     
-    public int getYMargin()
+    public int getYPadding()
     {
-        return YMargin;
+        return YPadding;
     }
     
-    public void setXMargin(int Margin)
+    public void setXPadding(int Padding)
     {
-        this.YMargin = Margin;
+        this.YPadding = Padding;
     }
     
-    public void setYMargin(int Margin)
+    public void setYPadding(int Padding)
     {
-        this.YMargin = Margin;
+        this.YPadding = Padding;
     }
     
-    public void setMargin(int Margin)
+    public void setPadding(int Padding)
     {
-        this.XMargin = Margin;
-        this.YMargin = Margin;
+        this.XPadding = Padding;
+        this.YPadding = Padding;
     }
     
     public boolean Contains(int PointX, int PointY)
     {
-        if(PointX >= AbsoluteX && PointY >= AbsoluteY && PointX <= (AbsoluteX+Width) && PointY <= (AbsoluteY+Height))
-            return true;
+        System.out.println(PointX  + " = " + (AbsoluteX + Width + XPadding));
+        System.out.println(PointY  + " = " + (AbsoluteY + Height + YPadding));
+        
+        if(Width == -1 || Height == -1)
+        {
+            if(PointX >= AbsoluteX && PointY >= AbsoluteY && PointX <= (AbsoluteX + Width + XPadding) && PointY <= (AbsoluteY + Height + YPadding))
+                return true;
+            else
+                return false;
+        }
         else
-            return false;
+        {
+            if(PointX >= AbsoluteX && PointY >= AbsoluteY && PointX <= (AbsoluteX + Width + XPadding) && PointY <= (AbsoluteY + Height + YPadding))
+                return true;
+            else
+                return false;
+        }
     }
     
     public abstract void Render(Graphics g, float ParentX, float ParentY, int ParentWidth, int ParentHeight);

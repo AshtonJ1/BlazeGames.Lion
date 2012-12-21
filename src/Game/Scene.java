@@ -42,6 +42,7 @@ public class Scene extends BasicGame
     public Player player;
     public HashMap<Integer, Player> players = new HashMap();
     public Monster[] mobs;
+    public GameContainer gc;
     
     private Window wnd;
     
@@ -59,6 +60,7 @@ public class Scene extends BasicGame
     @Override
     public void init(GameContainer gc) throws SlickException
     {
+        this.gc = gc;
         PlayerImage = new Image("Resource/Sprite/Player.png");
         input = gc.getInput();
         input.addMouseListener(new MouseAdapter());
@@ -122,7 +124,8 @@ public class Scene extends BasicGame
         
         wnd = new Window("la", 200, 200, 200, 200);
         
-        Button myButton = new Button("Button", 50, 50, 100, 100);
+        Button myButton = new Button("Button", 50, 50);
+        myButton.setPadding(15);
         
         myButton.addActionEvent(new ActionEvent()
         {
