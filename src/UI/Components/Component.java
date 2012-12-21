@@ -23,6 +23,8 @@ public abstract class Component
                     actionEvent.actionPerformed();
     }
     
+    public abstract void stopAction();
+    
     public void addActionEvent(ActionEvent actionEvent)
     {
         if(!ActionEvents.contains(actionEvent))
