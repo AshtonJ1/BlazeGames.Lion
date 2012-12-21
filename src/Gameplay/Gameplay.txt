@@ -1,0 +1,203 @@
+Squad Tactics
+By AA
+
+Introduction: This game, is going to be the revolutionary 2D MMO that has never really seen the market before. With a seperation of three different classes  such as a Tank, Support, and DPS, players are able to
+find what combinations of players they like to work with the most, in addition to the weapon and armor sets that they have to choose from. Players are able to progress their armor as well as their weapons as they
+play the game by unlocking new resources, or the ability to buy them from merchants as well as other players that are playing. 
+
+List of Monsters:
+
+Tiers
+1) Rotting/Decaying 	(Beginner Tier)
+2) Lesser				(Novice Tier)
+3) Normal				(Normal Tier)
+4) Greater				(Hard Tier)
+5) Legendary			(Elite Tier)
+
+World Map:
+
+	So, This is going to be rather simple just to make sure that we can get a general idea for the gameplay before getting serious with development for the later stages. I want to follow a Star Shaped pattern, with
+	the five tips of the map being portals to additional maps for harder difficulties of monsters. Keep in mind that we want to keep the enviroment friendly, but we want to make sure that players can navigate among
+	other people as well as potentially in the air. But in order to move on to the next map, they would not only have to wait on a timer to get the 'portal' to work, but there would be a substantial amount of monsters
+	surrounding the 'portal' in the first place that would need to be cleared. Now, the biggest part of this is that I want to make sure that the center of the map is where players both start, and are able to set up
+	a general shop to sell their loot for the day. Now at first, ALL players will have access to a level 1 shop, that would be able to stay open even when the player would go offline, but the player would need to set
+	it up ASAP in order to get a better spot. I'm thinking about putting this map seperately, that players can come to it to do their shopping, just to keep the clutter to a minimum. Now, the main map will also have
+	the basic items that a player will need to survive, and will need to stock up on for the rest of their career playing the game. We'll make maybe 1 or 2 stores that have everything we need, and go from there.
+
+Regions of the World:
+
+	A) Huge Jungle, crazy bugs and trees dominate this area
+
+	B) Nuclear wasteland, testing zone for mad scientists that eventually killed themselves from radiation. All that lives here are Zombies and Sludge
+
+	C) Winter Caverns and Cliffs, where the bandits and wolves have resided for ages
+
+	D) Stonehelm, where the Golems have come to a mutual agreement with the wyrms to live in harmony
+
+	E) The Sewers of the forgotten, where the Kreepers and Rodents devour anything that dares to enter
+
+Types of Monsters:
+
+	I)	 	Zombies
+	II)	 	Kreepers
+	III)	Rodents
+	IV)		Swarms (of wasps/bees or some insect)
+	V)		Sludge
+	VI)		Spors (Plant things)
+	VII) 	Bandits
+	VIII)	Wolves
+	IX)		Wyrms
+	X)		Golems
+	
+Types of Classes:
+
+	A) Tank
+		I) This class is made to absorb damage, as well as draw attention to himself whether it be for damage, or crowds of monsters that have not yet noticed anybody yet.
+		This class specilizes in large amounts of Health as well as blockrate for incoming damage. His secondary skills are support while he can learn some DPS skills with
+		minimal gain.
+		SKILLS::
+			I) Bash - 
+			II) Guard -
+			III) Absorb -
+			IV) Pull -
+			V) Block -
+	B) Support
+		I) This class is made to heal as well as clean up the remaining few monsters that might be straggling around. This class also is able to help 'buff' up players both
+		before battle, as well as in battle for maximum benefit. Without a strong support class, you will struggle at later parts of the game. This class specializes in Magic
+		in addition to having the secondary skillset in DPS. The Support class can also learn some tank skills but again, with minimal gain.
+		SKILLS::
+			I) Raise - Revive a fallen teamate
+			II) Heal - Provide significant amounts of health to one or multiple party members (If AoE, the single heal would be divided evenly between the teamates in range)
+			III) Swagger - Greatly increase a single player's attack and attack speed
+			IV) Defender - Greatly increase a single player's defense and blockrate
+			V) Judgement - If surrounding monsters have less than 10% of health, this move will be effective to do significant damage
+			
+	C) DPS
+		I) This class is made to hurt some monsters, and take names doing it. The only problem, or flaw so to speak for this class, is that they have a hard time keeping themselves
+		alive seeing as they lack HP, as well as the most imporatnt sustainability which is obtained through support skills. While they are available for him to learn, they do not
+		nearly suffice at later points in the game. This class is specialized in Attack, with secondary in Tank skills. 
+			SKILLS::
+			I) Renegade - Set in motion a damage frenzy where healing effects are reduced (on self) but damage is signficantly increased
+			II) Fury - Exchange DEFENSE for ATTACK and this includes any defense gained from buffs as long as they are used in the appropriate order.
+			III) Blitz - Reduce overall Health % for a boost in attack speed
+			IV) Redemption - If the player dies with all 3 self buffs on, or stays within 5% of their max health while in combat, the player is either reborn for 30 seconds (if they had died)
+			or all 3 self buffs are increased by a ratio of 5/2 for 30 seconds. 
+	
+Types of Weapons:
+
+	A)Tank:
+		Energy Shield
+		2H Spear
+		2H Hammer
+		2H Totem/Pillar 
+		2H Axe
+		2H Sceptre 
+		2H Scythe 
+		2H Mace Staff  
+
+	B)Support:
+		1H Hammer & Shield
+		Cane/Staff
+		Laser Glove
+		1H Tool Weapon
+		Cleaver (Dual Wield) 
+		Guitar 
+		Marionett 
+		Key 
+		Wand
+		1H Mace
+		Harp 
+
+	C)DPS:
+		Pistol
+		Musket/Rifles
+		Rod/Pole/BattleStick
+		Dual Bracers
+		Polearm
+		Thrown (stars, cards, axes, etc)
+		Katar 
+		Daggers 
+		Longbow/Xbow 
+		Boomerang 
+		Claws 
+		Grenades/Explosives
+		
+
+Armor Types:
+//NOTE There will also be a set of ores that will be 'mineable' by destorying special objects placed on a map. Players will need to collect these for many reasons.
+	A) Tank (Heavy)
+			Bronze
+			Iron
+			Steel
+			Titanium
+			Dinitrim
+		
+	B) Support (Light)
+			Light Bronze
+			Light Iron
+			Light Steel
+			Light Titanium
+			Light Dinitrim
+	
+	C)	DPS (Robes)
+			Bronze laced Robes
+			Iron laced Robes
+			Steel laced Robes
+			Titanium laced Robes
+			Dintrim laced Robes
+			
+Economy:
+	There will be a large amount of items flowing through the market at any given time, and I want to make sure that we have most of them regulated up to a certain point, but I wont go into that too much but rather
+	the item categories that we should be focused on when evaluating anything in terms of changes.
+	
+	A) Ores
+	B) Gold
+	C) Armor Pieces (Clean)/Weapons(Clean)
+	D) Level Rewards (BigBoss/MiniBoss Drops, lucky drops from special randoms on levels)
+	E) Upgrade Materials
+	F) Donation Points
+	G) Aesthetic Items
+	
+	
+Objectives of the game:
+
+	A) Gathering Resources
+	B) Leveling up
+	C) Learning higher level skills
+	D) Side maps and purposes
+	E) Rare items, Holiday Items, and Cash Shop items
+	F) Ranking System, for a multitude of things
+	G) Expanding your own Personal 'house/store' and your Guild Manor
+	H) Raising a personal 'Pet'
+	I) Achieveing 'Greatness' so that you can access parts of the world that other players will not be able to access at lower levels
+
+Starting out:
+
+	A) Basic Controls
+	B) What the player sees first
+	C) Tutorial Island, where all of the controls, skills, how to attack, among things to do in game will be explained.
+		I) Mining
+		II) Smithing
+		III) Farming
+		IV) Hunting
+		V) Player vs Player
+	D) Character Customization
+	E) Class selection screen
+	F) Weapon selection screen (Which players should be able to access at any time for their specific class, until a certain level is reached)
+	G) Leveling, early progression
+		I) Gathering loot
+		II) Learning new skills
+		III) 'Partying Up'
+		IV)
+	H) First Mini Boss
+	I) First Big Boss
+	J) 
+	
+
+
+
+
+	
+	
+	
+	
