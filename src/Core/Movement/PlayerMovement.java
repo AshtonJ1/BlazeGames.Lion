@@ -29,8 +29,8 @@ public class PlayerMovement implements Runnable
         
         while(Program.isRunning) //game.running
         {
-            if(WindowManager.noFocus())
-            {
+            //if(WindowManager.noFocus())
+            //{
                 try
                 { 
                     if(input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyDown(Input.KEY_RSHIFT))
@@ -91,7 +91,7 @@ public class PlayerMovement implements Runnable
                 {
                     e.printStackTrace();
                 }
-            }
+            //}
         }
     }
     

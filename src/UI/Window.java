@@ -229,8 +229,6 @@ public class Window
                 for(Component component : Components)
                     component.Render(g, this.X, this.Y, this.Width, this.Height);
             }
-            
-            System.out.println("Focused Index: " + FocusedComponent);
         }
     }
 }

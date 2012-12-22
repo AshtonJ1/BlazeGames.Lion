@@ -38,6 +38,8 @@ public class WindowManager
             if(window != null)
                 window.keyPressed(Key, Char);
         }
+        
+        System.out.println("focused:" + Focused);
     }
     
     public static void keyReleased(int Key, char Char)

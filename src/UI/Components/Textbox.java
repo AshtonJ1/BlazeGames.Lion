@@ -30,12 +30,14 @@ public class Textbox extends Component
     
     public Textbox(int X, int Y)
     {
-        this(X, Y, 20, 100, false);
+        this(X, Y, 20, 100, true);
     }
     
     @Override
     public void keyPressed(int Key, char Char)
     {
+        //exclude any special keys, crtl, shift and so on
+        
         if(Key == Input.KEY_BACK)
         {
             if(getContent().length() > 0)
@@ -55,7 +57,10 @@ public class Textbox extends Component
         //draw border
         //draw white rect
         //set color to font text color
-        //draw getContent()
-        g.drawString(getContent(), getAbsoluteX(), getAbsoluteY());
+        
+        if(isPassword)
+            g.drawString(getContent().replaceAll("[^*]", "*"), getAbsoluteX(), getAbsoluteY());
+        else
+            g.drawString(getContent(), getAbsoluteX(), getAbsoluteY());
     }
 }
