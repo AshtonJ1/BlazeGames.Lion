@@ -29,6 +29,11 @@ public abstract class Component
         
     }
     
+    public void mousePressed(int X, int Y)
+    {
+        
+    }
+    
     public void keyPressed(int Key, char Char)
     {
         

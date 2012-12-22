@@ -123,7 +123,7 @@ public class Scene extends BasicGame
         new Thread(new PlayerMovement()).start();
         new Thread(new EntityMovement()).start();
         
-        wnd = new Window("la", 200, 200, 200, 200);
+        /*wnd = new Window("la", 200, 200, 200, 200);
         
         Button myButton = new Button("Button", 50, 50);
         myButton.setPadding(15);
@@ -144,6 +144,22 @@ public class Scene extends BasicGame
         wnd.addComponent(myButton);
         wnd.addComponent(myTextbox);
         
+        WindowManager.addWindow(wnd);*/
+        
+        wnd = new Window("Login", 200, 200, 200, 135);
+        wnd.addComponent(new Textbox(10, 10, 165, 20, false));
+        wnd.addComponent(new Textbox(10, 40, 165, 20, true));
+        
+        Button tmp = new Button("Login", 10, 70, 165, 20);
+        tmp.addActionEvent(new ActionEvent() {
+
+            @Override
+            public void actionPerformed() {
+                System.out.println("test");
+            }
+        });
+        
+        wnd.addComponent(tmp);
         WindowManager.addWindow(wnd);
     }
     

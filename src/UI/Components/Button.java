@@ -36,11 +36,9 @@ public class Button extends Component
     }
     
     @Override
-    public void doAction()
+    public void mousePressed(int X, int Y)
     {
         isMouseDown = true;
-        super.doAction();
-        
     }
     
     @Override
@@ -58,6 +56,7 @@ public class Button extends Component
         setContentWidth(font.getWidth(getContent()));
         setContentHeight(font.getHeight(getContent()));
          
+        /*
         if(isFitToContent())
         {
             g.setColor(Color.gray);
@@ -72,22 +71,23 @@ public class Button extends Component
             g.setColor(Color.black);
             g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
         }
+        */
         
-        /*if(isFitToContent())
+        if(isFitToContent())
         {
             if(!isMouseDown)
             {
                 g.setColor(Color.gray);
                 g.fillRect(super.getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
                 g.setColor(Color.black);
-                g.drawString(Content, getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
+                g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
             }
             else
             {
                 g.setColor(Color.gray);
                 g.fillRect(getAbsoluteX() - 1, getAbsoluteY() - 1, getContentWidth() + getXPadding() - 1, getContentHeight() + getYPadding() - 1);
                 g.setColor(Color.black);
-                g.drawString(Content, getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
+                g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
             }
         }
         else
@@ -97,15 +97,15 @@ public class Button extends Component
                 g.setColor(Color.gray);
                 g.fillRect(super.getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
                 g.setColor(Color.black);
-                g.drawString(Content, getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
+                g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
             }
             else
             {
-                g.setColor(Color.gray);
-                g.fillRect(super.getAbsoluteX() + 1, getAbsoluteY() + 1, getWidth() + 1, getHeight() + 1);
+                g.setColor(Color.darkGray);
+                g.fillRect(super.getAbsoluteX() + 1, getAbsoluteY() + 1, getWidth(), getHeight());
                 g.setColor(Color.black);
-                g.drawString(Content, getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
+                g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding() + 1, getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding() + 1);
             }  
-        }*/
+        }
     }
 }

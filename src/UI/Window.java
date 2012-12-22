@@ -84,6 +84,18 @@ public class Window
                 component.stopAction();
     }
     
+    public void mousePressed(int X, int Y)
+    {
+        checkComponents(X, Y);
+        
+        for(Component component : Components)
+            if(component.Contains(X, Y))
+            {
+                requestFocus(component);
+                component.mousePressed(X, Y);
+            }
+    }
+    
     public void keyPressed(int Key, char Char)
     {
         //for(Component component : Components)
