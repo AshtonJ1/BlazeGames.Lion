@@ -13,7 +13,6 @@ import org.newdawn.slick.Input;
 public class Textbox extends Component
 {
     private boolean isPassword;
-    //private char[] Text;
     
     public Textbox(int X, int Y, int Width, int Height, boolean isPassword)
     {
@@ -31,7 +30,7 @@ public class Textbox extends Component
     
     public Textbox(int X, int Y)
     {
-        this(X, Y, 100, 20, true);
+        this(X, Y, 100, 20, false);
     }
     
     @Override
@@ -70,6 +69,6 @@ public class Textbox extends Component
         if(isPassword)
             g.drawString(getContent().replaceAll("[^*]", "*"), getAbsoluteX() + 3, getAbsoluteY() + 3);
         else
-            g.drawString(getContent(), getAbsoluteX(), getAbsoluteY());
+            g.drawString(getContent(), getAbsoluteX() + 3, getAbsoluteY() + 3);
     }
 }
