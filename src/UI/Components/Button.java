@@ -11,14 +11,13 @@ import org.newdawn.slick.Graphics;
 
 public class Button extends Component
 {
-    private String Content = "";
     private boolean isMouseDown;
     
     public Button(String Content, int X, int Y, int Width, int Height, int XPadding, int YPadding, boolean Enabled)
     {
-        this.Content = Content;
         this.isMouseDown = false;
         
+        setContent(Content);
         setLocation(X, Y);
         setSize(Width, Height);
         setXPadding(XPadding);
@@ -56,22 +55,22 @@ public class Button extends Component
         setAbsoluteLocation((int)ParentX+getX(), (int)ParentY+getY(), 0);
         
         Font font = g.getFont();
-        setContentWidth(font.getWidth(Content));
-        setContentHeight(font.getHeight(Content));
+        setContentWidth(font.getWidth(getContent()));
+        setContentHeight(font.getHeight(getContent()));
          
         if(isFitToContent())
         {
             g.setColor(Color.gray);
             g.fillRect(getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
             g.setColor(Color.black);
-            g.drawString(Content, getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
+            g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
         }
         else
         {
             g.setColor(Color.gray);
             g.fillRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
             g.setColor(Color.black);
-            g.drawString(Content, getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
+            g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
         }
         
         /*if(isFitToContent())

@@ -14,6 +14,7 @@ public abstract class Component
     private int AbsoluteX, AbsoluteY, X, Y, Width, Height, ContentWidth, ContentHeight, XPadding, YPadding, Radius;
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private boolean isEnabled;
+    private String Content = "";
     
     public void doAction()
     {
@@ -32,6 +33,16 @@ public abstract class Component
     {
         if(!ActionEvents.contains(actionEvent))
             ActionEvents.add(actionEvent);
+    }
+    
+    public void setContent(String Content)
+    {
+        this.Content = Content;
+    }
+    
+    public String getContent()
+    {
+        return Content;
     }
     
     public int getContentWidth()
