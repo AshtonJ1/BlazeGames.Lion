@@ -1,6 +1,7 @@
 package UI.Components;
 
 import Game.Scene;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
@@ -30,7 +31,7 @@ public class Textbox extends Component
     
     public Textbox(int X, int Y)
     {
-        this(X, Y, 20, 100, true);
+        this(X, Y, 100, 20, true);
     }
     
     @Override
@@ -57,9 +58,17 @@ public class Textbox extends Component
         //draw border
         //draw white rect
         //set color to font text color
+        g.drawRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+        g.setColor(Color.white);
+        g.fillRect(getAbsoluteX() + 1, getAbsoluteY() + 1, getWidth() - 1, getHeight() - 1);
+        g.setColor(Color.black);
+        
+        //we want to only draw the substring of the content that is able to fit inside the textbox
+        //the substring should start at the end, not the beginning for example if string is coconuts
+        //it should draw conuts instead of coconu
         
         if(isPassword)
-            g.drawString(getContent().replaceAll("[^*]", "*"), getAbsoluteX(), getAbsoluteY());
+            g.drawString(getContent().replaceAll("[^*]", "*"), getAbsoluteX() + 3, getAbsoluteY() + 3);
         else
             g.drawString(getContent(), getAbsoluteX(), getAbsoluteY());
     }

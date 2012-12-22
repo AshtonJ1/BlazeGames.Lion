@@ -138,7 +138,7 @@ public class Scene extends BasicGame
             }
         });
         
-        Textbox myTextbox = new Textbox(100, 100);
+        Textbox myTextbox = new Textbox(5, 100);
         
         
         wnd.addComponent(myButton);
