@@ -1,6 +1,8 @@
 package UI.Components;
 
+import Game.Scene;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 /**
  *
@@ -9,22 +11,41 @@ import org.newdawn.slick.Graphics;
 
 public class Textbox extends Component
 {
-    //private boolean isPassword;
+    private boolean isPassword;
     //private char[] Text;
     
-    public Textbox(int X, int Y, int Width, int Height)
+    public Textbox(int X, int Y, int Width, int Height, boolean isPassword)
     {
+        this.isPassword = isPassword;
+        
         setLocation(X, Y);
         setSize(Width, Height);
         setEnabled(true);
     }
     
-    public Textbox(int X, int Y)
+    public Textbox(int X, int Y, int Width, int Height)
     {
-        this(X, Y, 20, 100);
+        this(X, Y, Width, Height, false);
     }
     
-    //need to do keyevents
+    public Textbox(int X, int Y)
+    {
+        this(X, Y, 20, 100, false);
+    }
+    
+    @Override
+    public void keyPressed(int Key, char Char)
+    {
+        if(Key == Input.KEY_BACK)
+        {
+            if(getContent().length() > 0)
+                setContent(getContent().substring(0, getContent().length() - 1));
+        }
+        else
+        {
+            setContent(getContent() + Char);
+        }
+    }
     
     @Override
     public void Render(Graphics g, float ParentX, float ParentY, int ParentWidth, int ParentHeight)
@@ -35,5 +56,6 @@ public class Textbox extends Component
         //draw white rect
         //set color to font text color
         //draw getContent()
+        g.drawString(getContent(), getAbsoluteX(), getAbsoluteY());
     }
 }

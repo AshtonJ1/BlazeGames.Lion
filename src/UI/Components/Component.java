@@ -29,6 +29,11 @@ public abstract class Component
         
     }
     
+    public void keyPressed(int Key, char Char)
+    {
+        
+    }
+    
     public void addActionEvent(ActionEvent actionEvent)
     {
         if(!ActionEvents.contains(actionEvent))

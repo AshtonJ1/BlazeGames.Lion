@@ -14,7 +14,7 @@ import org.newdawn.slick.Input;
 public class Window
 {
     private float X, Y;
-    private int Width, Height, StartX, StartY, Radius;
+    private int Width, Height, StartX, StartY, Radius, FocusedComponent = -1;
     private boolean isFirstRender, isVisible, isMouseDown, isPinned;
     private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
@@ -45,11 +45,36 @@ public class Window
         this(WindowTitle, X, Y, Width, Height, 0, true, false);
     }
     
-    public void doAction(int ActionX, int ActionY)
+    public void requestFocus(Component component)
     {
+        for(int i = 0; i < Components.size(); i++)
+            if(Components.get(i).equals(component))
+                if(FocusedComponent != i)
+                    FocusedComponent = i;
+    }
+    
+    public void checkComponents(int X, int Y)
+    {
+        boolean insideComponent = false;
+        
+        for(Component component : Components)
+            if(component.Contains(X, Y))
+                insideComponent = true;
+        
+        if(!insideComponent)
+            FocusedComponent = -1;
+    }
+    
+    public void doAction(int ActionX, int ActionY)
+    {      
+        checkComponents(ActionX, ActionY);
+        
         for(Component component : Components)
             if(component.Contains(ActionX, ActionY))
+            {
+                requestFocus(component);
                 component.doAction();
+            }
     }
     
     public void stopAction(int ActionX, int ActionY)
@@ -57,6 +82,17 @@ public class Window
         for(Component component : Components)
             if(component.Contains(ActionX, ActionY))
                 component.stopAction();
+    }
+    
+    public void keyPressed(int Key, char Char)
+    {
+        //for(Component component : Components)
+            //component.keyPressed(Key, Char);
+        if(FocusedComponent != -1 && Components.size() > 0)
+        {
+            Component component = Components.get(FocusedComponent);
+            component.keyPressed(Key, Char);
+        }
     }
     
     public void addComponent(Component component)
@@ -193,6 +229,8 @@ public class Window
                 for(Component component : Components)
                     component.Render(g, this.X, this.Y, this.Width, this.Height);
             }
+            
+            System.out.println("Focused Index: " + FocusedComponent);
         }
     }
 }

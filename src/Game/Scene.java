@@ -7,6 +7,7 @@ import Input.MouseAdapter;
 import Network.ClientSocket;
 import UI.ActionEvent;
 import UI.Components.Button;
+import UI.Components.Textbox;
 import UI.Window;
 import UI.WindowManager;
 import java.util.HashMap;
@@ -137,7 +138,11 @@ public class Scene extends BasicGame
             }
         });
         
+        Textbox myTextbox = new Textbox(100, 100);
+        
+        
         wnd.addComponent(myButton);
+        wnd.addComponent(myTextbox);
         
         WindowManager.addWindow(wnd);
     }

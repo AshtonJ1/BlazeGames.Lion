@@ -18,11 +18,11 @@ public class KeyAdapter implements KeyListener
     @Override
     public void keyPressed(int key, char c)
     {
-        //WindowManager.keyPressed(key, c);
+        if(!WindowManager.noFocus())
+            WindowManager.keyPressed(key, c);
         
         if(key == Input.KEY_ESCAPE)
-            WindowManager.resetFocus();
-            //Program.Application.exit();
+            Program.Application.exit();
 
         if(key == Input.KEY_F11)
         {

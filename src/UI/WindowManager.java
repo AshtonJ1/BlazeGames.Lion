@@ -21,9 +21,23 @@ public class WindowManager
         Windows.remove(window);
     }
     
+    public static Window getFocusedWindow()
+    {
+        if(!noFocus())
+            return Windows.get(Focused);
+        else
+            return null;
+    }
+    
     public static void keyPressed(int Key, char Char)
     {
-        
+        if(Windows.size() > 0 && Focused != -1)
+        {
+            Window window = Windows.get(Focused);
+            
+            if(window != null)
+                window.keyPressed(Key, Char);
+        }
     }
     
     public static void keyReleased(int Key, char Char)
