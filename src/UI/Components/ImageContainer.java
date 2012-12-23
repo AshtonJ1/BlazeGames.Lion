@@ -25,7 +25,6 @@ public class ImageContainer extends Component
     public void Render(Graphics g, float ParentX, float ParentY, int ParentWidth, int ParentHeight)
     {
         setAbsoluteLocation((int)ParentX+getX(), (int)ParentY+getY(), 0);
-        g.resetTransform();
         g.drawImage(image.getScaledCopy(.25F), getAbsoluteX(), getAbsoluteY());
     }
     
