@@ -1,6 +1,7 @@
 package UI;
 
 import java.util.ArrayList;
+import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -95,25 +96,38 @@ public class WindowManager
         if(!insideWindow)
         {
             Focused = -1;
-            
+        
             for(Window window : Windows)
+            {
                 window.checkComponents(X, Y);
+                window.setFocused(false);
+            }
         }
     }
     
     public static void requestFocus(Window window)
     {
-        
-        for(int i = 0; i < Windows.size(); i++)
-            if(Windows.get(i).equals(window))
-            {
-                Windows.get(i).setFocused(true);
+        boolean focusedWindowHasMouseDown = false;    
 
-                if(Focused != i)
-                    Focused = i;
+        if(!noFocus())
+            if(Windows.get(Focused).isMouseDown())
+                focusedWindowHasMouseDown = true;
+        
+        if(!focusedWindowHasMouseDown)
+        {
+            for(int i = 0; i < Windows.size(); i++)
+            {
+                if(Windows.get(i).equals(window))
+                {
+                    Windows.get(i).setFocused(true);
+
+                    if(Focused != i)
+                        Focused = i;
+                }
+                else
+                    Windows.get(i).setFocused(false);
             }
-            else
-                Windows.get(i).setFocused(false);
+        }
     }
     
     public static void resetFocus()
@@ -127,5 +141,15 @@ public class WindowManager
             return true;
         else
             return false;
+    }
+    
+    public static void RenderWindows(Graphics g)
+    {
+        for(Window window : Windows)
+            if(window.isVisible() && !window.hasFocus())
+                window.Render(g);
+        
+        if(!noFocus())
+            Windows.get(Focused).Render(g);
     }
 }

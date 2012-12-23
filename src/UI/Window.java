@@ -16,14 +16,7 @@ public class Window
     private float X, Y;
     private int Width, Height, StartX, StartY, Radius, FocusedComponent = -1;
     private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false;
-
-    public boolean hasFocus() {
-        return hasFocus;
-    }
-
-    public void setFocused(boolean hasFocus) {
-        this.hasFocus = hasFocus;
-    }
+    
     private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
@@ -52,6 +45,21 @@ public class Window
     public Window(String WindowTitle, float X, float Y, int Width, int Height)
     {
         this(WindowTitle, X, Y, Width, Height, 0, true, false);
+    }
+    
+    public boolean hasFocus()
+    {
+        return hasFocus;
+    }
+
+    public void setFocused(boolean hasFocus) 
+    {
+        this.hasFocus = hasFocus;
+    }
+    
+    public boolean isMouseDown()
+    {
+        return isMouseDown;
     }
     
     public int getWidth()

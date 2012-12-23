@@ -280,9 +280,7 @@ public class Scene extends BasicGame
             g.setColor(Color.red);
             g.fillRect(80, 55, 100, 10);
             
-            for(Window window : WindowManager.Windows)
-                if(window.isVisible())
-                    window.Render(g);
+            WindowManager.RenderWindows(g);
         }
     }
 }
