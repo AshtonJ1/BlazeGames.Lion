@@ -204,9 +204,10 @@ public class Scene extends BasicGame
     {
         if(Program.isRunning)
         {
-            Cam.Render(g);
+            
+            Cam.Render(g);         
             mapDefault.render(0, 0);
-
+            
             for(Monster mob : mobs)
                 if(Cam.isEntityInCamera(mob))
                     mob.Draw();
@@ -215,8 +216,9 @@ public class Scene extends BasicGame
                 plyer.Draw();
 
             player.Draw();
-
-            currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
+            
+            g.copyArea(fullMapImage, 0, 0);
+            currentMapImage = fullMapImage.getSubImage(0, 0, Cam.getCamWidth() - 20, Cam.getCamHeight() - 20);
             ((ImageContainer)wndMiniMap.getComponents()[0]).setImage(currentMapImage);
             
             g.resetTransform();
