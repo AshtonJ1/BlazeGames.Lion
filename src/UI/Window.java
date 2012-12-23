@@ -46,6 +46,16 @@ public class Window
         this(WindowTitle, X, Y, Width, Height, 0, true, false);
     }
     
+    public int getWidth()
+    {
+        return Width;
+    }
+    
+    public int getHeight()
+    {
+        return Height;
+    }
+    
     public void doAction(String eventType)
     {
         if(isVisible)

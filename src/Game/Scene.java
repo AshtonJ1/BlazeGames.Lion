@@ -85,7 +85,7 @@ public class Scene extends BasicGame
         
         player = new Player(PlayerImage);
         player.setCurrentMap(mapDefault);
-        mobs = new Monster[500];
+        mobs = new Monster[50];
         
         for(int i = 0; i < mobs.length - 1; i++)
         {
@@ -159,6 +159,16 @@ public class Scene extends BasicGame
         //currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
         wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 14, currentMapImage.getHeight() + 36);
         wndMiniMap.addComponent(new Map(currentMapImage, 0, 0));
+        
+        Button btnMapZoomIn = new Button("+", (wndMiniMap.getWidth() - (32 + 20)), -21, 15, 15);
+        Button btnMapZoomOut = new Button("-", (wndMiniMap.getWidth() - 32), -21, 15, 15);
+        
+        btnMapZoomIn.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale > 1) MapScale--; }});
+        btnMapZoomOut.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale < 16) MapScale++; }});
+        
+        wndMiniMap.addComponent(btnMapZoomIn);
+        wndMiniMap.addComponent(btnMapZoomOut);
+        
         wndMiniMap.addActionEvent(new ActionEvent("onRender")
         {
             @Override
@@ -180,10 +190,6 @@ public class Scene extends BasicGame
                 
                 g.setColor(Color.blue);
                 g.fillRect(map.getAbsoluteX() + ((player.getXCenter() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((player.getYCenter() - map.getFullMapY()) / MapScale), 5, 5);
-                
-                //g.fillRect(map.getAbsoluteX() + (map.getWidth() / 2), map.getAbsoluteY() + (map.getHeight() / 2), 5, 5);
-                //g.fillRect(map.getAbsoluteX() + 200 / 2 - 5 / 2, map.getAbsoluteY() + 200 / 2 - 5 / 2, 5, 5);
-                //Draw players and mobs on mini map
             }
         });
         WindowManager.addWindow(wndMiniMap);
