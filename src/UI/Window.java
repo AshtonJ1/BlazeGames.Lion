@@ -18,6 +18,7 @@ public class Window
     private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false;
     private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
+    private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private Input input;
     
     public Window(String WindowTitle, float X, float Y, int Width, int Height, int Radius,boolean ShowClose, boolean isPinned)
@@ -43,6 +44,20 @@ public class Window
     public Window(String WindowTitle, float X, float Y, int Width, int Height)
     {
         this(WindowTitle, X, Y, Width, Height, 0, true, false);
+    }
+    
+    public void doAction(String eventType)
+    {
+        if(isVisible)
+            for(ActionEvent actionEvent : ActionEvents)
+                if(actionEvent != null && actionEvent.getEventType().equals(eventType))
+                    actionEvent.actionPerformed();
+    }
+    
+    public void addActionEvent(ActionEvent actionEvent)
+    {
+        if(!ActionEvents.contains(actionEvent))
+            ActionEvents.add(actionEvent);
     }
     
     public void requestFocus(Component component)
@@ -266,13 +281,21 @@ public class Window
                 g.drawString(this.WindowTitle, X + 10, Y + 7);
 
                 for(Component component : Components)
+                {
                     component.Render(g, this.X + 8, this.Y + 30, this.Width, this.Height);
+                    component.doAction("onRender");
+                }
             }
             else
             {
                 for(Component component : Components)
+                {
                     component.Render(g, this.X, this.Y, this.Width, this.Height);
+                    component.doAction("onRender");
+                }
             }
+            
+            doAction("onRender");
         }
     }
     

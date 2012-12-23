@@ -12,10 +12,12 @@ import org.newdawn.slick.Image;
  *
  * @author Ashton
  */
-public class ImageContainer extends Component
+public class Map extends Component
 {
     private Image image;
-    public ImageContainer(Image image, int X, int Y)
+    private int fullMapX, fullMapY;
+
+    public Map(Image image, int X, int Y)
     {
         this.image = image;
         setLocation(X, Y);
@@ -27,10 +29,6 @@ public class ImageContainer extends Component
     {
         setAbsoluteLocation((int)ParentX+getX(), (int)ParentY+getY(), 0);
         g.drawImage(image, getAbsoluteX(), getAbsoluteY());
-        Scene s = Scene.getInstance();
-        //g.drawImage(Scene.PlayerImage.getScaledCopy(5, 5), getAbsoluteX() + (s.player.getX()*.060F), getAbsoluteY() + (s.player.getY()*.060F));
-        g.fillRect(getAbsoluteX() + (s.player.getXCenter()*.06F), getAbsoluteY() + (s.player.getYCenter()*.06F), 5, 5);
-        //System.out.println(getAbsoluteX() + (s.player.getX()));
     }
     
     public Image getImage()
@@ -42,5 +40,25 @@ public class ImageContainer extends Component
     {
         this.image = image;
         setSize(image.getWidth(), image.getHeight());
+    }
+    
+    public int getFullMapX()
+    {
+        return fullMapX;
+    }
+
+    public void setFullMapX(int fullMapX)
+    {
+        this.fullMapX = fullMapX;
+    }
+
+    public int getFullMapY()
+    {
+        return fullMapY;
+    }
+
+    public void setFullMapY(int fullMapY)
+    {
+        this.fullMapY = fullMapY;
     }
 }

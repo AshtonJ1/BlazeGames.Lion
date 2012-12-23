@@ -7,7 +7,8 @@ import Input.MouseAdapter;
 import Network.ClientSocket;
 import UI.ActionEvent;
 import UI.Components.Button;
-import UI.Components.ImageContainer;
+import UI.Components.Component;
+import UI.Components.Map;
 import UI.Components.Textbox;
 import UI.Window;
 import UI.WindowManager;
@@ -20,6 +21,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
 /**
@@ -54,6 +56,8 @@ public class Scene extends BasicGame
     
     public Input input;
     
+    public float MapScale = 16.0F;
+    
     Random random = new Random();
     
     private Scene()
@@ -81,7 +85,7 @@ public class Scene extends BasicGame
         
         player = new Player(PlayerImage);
         player.setCurrentMap(mapDefault);
-        mobs = new Monster[5];
+        mobs = new Monster[500];
         
         for(int i = 0; i < mobs.length - 1; i++)
         {
@@ -96,8 +100,8 @@ public class Scene extends BasicGame
             
             mobs[i].setCurrentMap(mapDefault);
             
-            int x = random.nextInt(100) + 32;
-            int y = random.nextInt(100) + 32;
+            int x = random.nextInt(3100) + 32;
+            int y = random.nextInt(3100) + 32;
             
             int TileID = mapDefault.getTileId((int)(x / 32), (int)(y / 32), mapDefault.getLayerIndex("NoWalk"));
             String NoWalk = mapDefault.getTileProperty(TileID, "nowalk", "false");
@@ -154,7 +158,34 @@ public class Scene extends BasicGame
         currentMapImage = fullMapImage.getScaledCopy(200, 200);
         //currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
         wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 14, currentMapImage.getHeight() + 36);
-        wndMiniMap.addComponent(new ImageContainer(currentMapImage, 0, 0));
+        wndMiniMap.addComponent(new Map(currentMapImage, 0, 0));
+        wndMiniMap.addActionEvent(new ActionEvent("onRender")
+        {
+            @Override
+            public void actionPerformed()
+            {
+                Graphics g = Scene.getInstance().gc.getGraphics();
+                Map map = (Map)wndMiniMap.getComponents()[0];
+                
+                
+                Rectangle miniMapZone = new Rectangle(map.getFullMapX(), map.getFullMapY(), map.getWidth() * MapScale, map.getHeight() * MapScale);
+                g.setColor(Color.red);
+                for(Monster mob : mobs)
+                {
+                    if(miniMapZone.contains(mob.getX(), mob.getY()))
+                    {
+                        g.fillRect(map.getAbsoluteX() + ((mob.getX() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((mob.getY() - map.getFullMapY()) / MapScale), 5, 5);
+                    }
+                }
+                
+                g.setColor(Color.blue);
+                g.fillRect(map.getAbsoluteX() + ((player.getXCenter() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((player.getYCenter() - map.getFullMapY()) / MapScale), 5, 5);
+                
+                //g.fillRect(map.getAbsoluteX() + (map.getWidth() / 2), map.getAbsoluteY() + (map.getHeight() / 2), 5, 5);
+                //g.fillRect(map.getAbsoluteX() + 200 / 2 - 5 / 2, map.getAbsoluteY() + 200 / 2 - 5 / 2, 5, 5);
+                //Draw players and mobs on mini map
+            }
+        });
         WindowManager.addWindow(wndMiniMap);
         
         wnd = new Window("Login", 200, 200, 200, 135);
@@ -217,9 +248,23 @@ public class Scene extends BasicGame
 
             player.Draw();
             
-            //g.copyArea(fullMapImage, 0, 0);
-            //currentMapImage = fullMapImage.getSubImage(0, 0, Cam.getCamWidth() - 20, Cam.getCamHeight() - 20);
-            //((ImageContainer)wndMiniMap.getComponents()[0]).setImage(currentMapImage);
+            int miniMapX = (int)player.getXCenter() - (int)(100 * MapScale);
+            int miniMapY = (int)player.getYCenter() - (int)(100 * MapScale);
+            
+            if(miniMapX < 0)
+                miniMapX = 0;
+            else if(miniMapX + (int)(200 * MapScale) > mapDefault.getWidth() * 32)
+                miniMapX = (mapDefault.getWidth() * 32) - (int)(200 * MapScale);
+            if(miniMapY < 0)
+                miniMapY = 0;
+            else if(miniMapY + (int)(200 * MapScale) > mapDefault.getHeight() * 32)
+                miniMapY = (mapDefault.getHeight() * 32) - (int)(200 * MapScale);
+            
+            currentMapImage = fullMapImage.getSubImage(miniMapX, miniMapY, (int)(200 * MapScale), (int)(200 * MapScale)).getScaledCopy(200, 200);
+            Map map = (Map)wndMiniMap.getComponents()[0];
+            map.setImage(currentMapImage);
+            map.setFullMapX(miniMapX);
+            map.setFullMapY(miniMapY);
             
             g.resetTransform();
 
