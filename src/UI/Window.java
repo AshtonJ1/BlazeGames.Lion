@@ -15,7 +15,7 @@ public class Window
 {
     private float X, Y;
     private int Width, Height, StartX, StartY, Radius, FocusedComponent = -1;
-    private boolean isFirstRender, isVisible, isMouseDown, isPinned;
+    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false;
     private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
     private Input input;
@@ -49,8 +49,14 @@ public class Window
     {
         for(int i = 0; i < Components.size(); i++)
             if(Components.get(i).equals(component))
+            {
+                Components.get(i).hasFocus = true;
+                
                 if(FocusedComponent != i)
                     FocusedComponent = i;
+            }
+            else
+                Components.get(i).hasFocus = false;
     }
     
     public void checkComponents(int X, int Y)
@@ -62,10 +68,16 @@ public class Window
                 insideComponent = true;
         
         if(!insideComponent)
+        {
             FocusedComponent = -1;
+        
+            for(Component component : Components)
+                if(component.hasFocus)
+                    component.hasFocus = false;
+        }
     }
     
-    public void doAction(int ActionX, int ActionY)
+    public void onClick(int ActionX, int ActionY, int button, int clickCount)
     {      
         checkComponents(ActionX, ActionY);
         
@@ -73,15 +85,34 @@ public class Window
             if(component.Contains(ActionX, ActionY))
             {
                 requestFocus(component);
-                component.doAction();
+                
+                component.doAction("onClick");
+                component.doAction("onClick" + clickCount);
+                
+                if(button == Input.MOUSE_LEFT_BUTTON)
+                {
+                    component.doAction("onLeftClick");
+                    component.doAction("onLeftClick" + clickCount);
+                }
+                else if(button == Input.MOUSE_MIDDLE_BUTTON)
+                {
+                    component.doAction("onMiddleClick");
+                    component.doAction("onMiddleClick" + clickCount);
+                }
+                else if(button == Input.MOUSE_RIGHT_BUTTON)
+                {
+                    component.doAction("onRightClick");
+                    component.doAction("onRightClick" + clickCount);
+                }
             }
     }
     
     public void stopAction(int ActionX, int ActionY)
     {
         for(Component component : Components)
-            if(component.Contains(ActionX, ActionY))
                 component.stopAction();
+        
+        isComponentActive = false;
     }
     
     public void mousePressed(int X, int Y)
@@ -93,6 +124,7 @@ public class Window
             {
                 requestFocus(component);
                 component.mousePressed(X, Y);
+                isComponentActive = true;
             }
     }
     
@@ -189,7 +221,7 @@ public class Window
                 if(Contains(input.getMouseX(), input.getMouseY()))
                     WindowManager.requestFocus(this);
                 
-                if(MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown)
+                if((MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown) && !isComponentActive)
                 {
                     isMouseDown = true;
                     
@@ -242,5 +274,10 @@ public class Window
                     component.Render(g, this.X, this.Y, this.Width, this.Height);
             }
         }
+    }
+    
+    public Component[] getComponents()
+    {
+        return Components.toArray(new Component[Components.size()]);
     }
 }

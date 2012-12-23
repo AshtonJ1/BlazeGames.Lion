@@ -7,6 +7,7 @@ import Input.MouseAdapter;
 import Network.ClientSocket;
 import UI.ActionEvent;
 import UI.Components.Button;
+import UI.Components.ImageContainer;
 import UI.Components.Textbox;
 import UI.Window;
 import UI.WindowManager;
@@ -45,7 +46,9 @@ public class Scene extends BasicGame
     public Monster[] mobs;
     public GameContainer gc;
     
-    private Window wnd;
+    private Image fullMapImage;
+    
+    private Window wnd, wndMiniMap;
     
     public static Image PlayerImage;
     
@@ -62,12 +65,15 @@ public class Scene extends BasicGame
     public void init(GameContainer gc) throws SlickException
     {
         this.gc = gc;
+        
+        gc.getGraphics().setAntiAlias(true);
+        
+        fullMapImage = new Image("Resource/Maps/testmap.png");
+        
         PlayerImage = new Image("Resource/Sprite/Player.png");
         input = gc.getInput();
         input.addMouseListener(new MouseAdapter());
         input.addKeyListener(new KeyAdapter());
-        
-        wnd = new Window("", 200, 200, 200, 200);
         
         Program.CSocket = new ClientSocket();
         
@@ -146,16 +152,38 @@ public class Scene extends BasicGame
         
         WindowManager.addWindow(wnd);*/
         
-        wnd = new Window("Login", 200, 200, 200, 135);
-        wnd.addComponent(new Textbox(10, 10, 165, 20, false));
-        wnd.addComponent(new Textbox(10, 40, 165, 20, true));
+        currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
+        wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 14, currentMapImage.getHeight() + 36);
+        wndMiniMap.addComponent(new ImageContainer(currentMapImage, 0, 0));
+        WindowManager.addWindow(wndMiniMap);
         
+        wnd = new Window("Login", 200, 200, 200, 135);
+        Textbox txtBox = new Textbox(10, 10, 165, 20, false);
+        wnd.addComponent(txtBox);
+        
+        Textbox pass = new Textbox(10, 40, 165, 20, true);
+        pass.addActionEvent(new ActionEvent("onReturn")
+        {
+            @Override
+            public void actionPerformed() 
+            {
+                player.WalkTo(500, 500);
+            }
+        });
+        wnd.addComponent(pass);
         Button tmp = new Button("Login", 10, 70, 165, 20);
-        tmp.addActionEvent(new ActionEvent() {
-
+        tmp.addActionEvent(new ActionEvent("onLeftClick")
+        {
             @Override
             public void actionPerformed() {
-                System.out.println("test");
+                player.WalkTo(500, 500);
+            }
+        });
+        tmp.addActionEvent(new ActionEvent("onRightClick")
+        {
+            @Override
+            public void actionPerformed() {
+                wnd.setVisible(false);
             }
         });
         
@@ -168,6 +196,8 @@ public class Scene extends BasicGame
     {
         
     }
+    
+    private Image currentMapImage;
     
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException 
@@ -186,6 +216,9 @@ public class Scene extends BasicGame
 
             player.Draw();
 
+            currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
+            ((ImageContainer)wndMiniMap.getComponents()[0]).setImage(currentMapImage);
+            
             g.resetTransform();
 
             g.setColor(Color.white);
@@ -193,9 +226,10 @@ public class Scene extends BasicGame
             g.drawString("Health: ", 10, 50);
             g.setColor(Color.red);
             g.fillRect(80, 55, 100, 10);
+            
+            for(Window window : WindowManager.Windows)
+                if(window.isVisible())
+                    window.Render(g);
         }
-        
-        for(Window window : WindowManager.Windows)
-            window.Render(g);
     }
 }

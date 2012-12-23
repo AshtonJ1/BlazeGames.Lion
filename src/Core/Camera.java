@@ -29,9 +29,19 @@ public class Camera
         cameraZone.setHeight(Height);
     }
     
+    public int getCamWidth()
+    {
+        return (int)cameraZone.getWidth();
+    }
+    
+    public int getCamHeight()
+    {
+        return (int)cameraZone.getHeight();
+    }
+    
     public void Render(Graphics g)
     {
-        g.translate(this.X, this.Y);
+        g.translate((int)this.X, (int)this.Y);
         cameraZone.setX(-X-20);
         cameraZone.setY(-Y-20);
     }

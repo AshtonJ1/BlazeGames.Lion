@@ -33,39 +33,42 @@ public class PlayerMovement implements Runnable
             //{
                 try
                 { 
-                    if(input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyDown(Input.KEY_RSHIFT))
-                        scene.player.Speed = 1.5F;
-                    else if(input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL))
-                        scene.player.Speed = .5F;
-                    else
-                        scene.player.Speed = 1;
-
                     Direction dir = Direction.None;
-
-                    if(input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP))
+                    
+                    if(WindowManager.noFocus())
                     {
-                        scene.player.AppendWalkTo(0, -scene.player.Speed);
-                        dir = Direction.Up;
-                    }
+                        if(input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyDown(Input.KEY_RSHIFT))
+                            scene.player.Speed = 1.5F;
+                        else if(input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL))
+                            scene.player.Speed = .5F;
+                        else
+                            scene.player.Speed = 1;
 
-                    if(input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN))
-                    {
-                        scene.player.AppendWalkTo(0, scene.player.Speed);
-                        dir = Direction.Down;
-                    }
+                        if(input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP))
+                        {
+                            scene.player.AppendWalkTo(0, -scene.player.Speed);
+                            dir = Direction.Up;
+                        }
 
-                    if(input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT))
-                    {
-                        scene.player.AppendWalkTo(-scene.player.Speed, 0);
-                        dir = Direction.Left;
-                    }
+                        if(input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN))
+                        {
+                            scene.player.AppendWalkTo(0, scene.player.Speed);
+                            dir = Direction.Down;
+                        }
 
-                    if(input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT))
-                    {
-                        scene.player.AppendWalkTo(scene.player.Speed, 0);
-                        dir = Direction.Right;
-                    }
+                        if(input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT))
+                        {
+                            scene.player.AppendWalkTo(-scene.player.Speed, 0);
+                            dir = Direction.Left;
+                        }
 
+                        if(input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT))
+                        {
+                            scene.player.AppendWalkTo(scene.player.Speed, 0);
+                            dir = Direction.Right;
+                        }
+                    }
+                    
                     if(i == 20)
                     {
                         if(CurrentX != scene.player.getX() || CurrentY != scene.player.getY() || CurrentDirection != dir)
@@ -77,7 +80,8 @@ public class PlayerMovement implements Runnable
 
                         i=-1;
                     }
-
+                    
+                    
                     scene.player.AIMove();
 
                     scene.Cam.CenterOnEntity(scene.player);

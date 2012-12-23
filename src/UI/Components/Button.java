@@ -1,8 +1,12 @@
 package UI.Components;
 
+import Game.Program;
+import Game.Scene;
+import java.awt.MouseInfo;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 /**
  *
@@ -11,7 +15,8 @@ import org.newdawn.slick.Graphics;
 
 public class Button extends Component
 {
-    private boolean isMouseDown;
+    private boolean isMouseDown, isMouseHover;
+    private Color backgroundColor = Color.lightGray, backgroundPressedColor = Color.darkGray, backgroundHoverColor = Color.gray, borderColor = Color.black, foregroundColor = Color.white;
     
     public Button(String Content, int X, int Y, int Width, int Height, int XPadding, int YPadding, boolean Enabled)
     {
@@ -55,57 +60,113 @@ public class Button extends Component
         Font font = g.getFont();
         setContentWidth(font.getWidth(getContent()));
         setContentHeight(font.getHeight(getContent()));
-         
-        /*
-        if(isFitToContent())
-        {
-            g.setColor(Color.gray);
-            g.fillRect(getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
-            g.setColor(Color.black);
-            g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
-        }
+        
+        int MouseX = Scene.getInstance().input.getMouseX();
+        int MouseY = Scene.getInstance().input.getMouseY();
+        
+        
+        if(Contains(MouseX, MouseY))
+            isMouseHover = true;
         else
-        {
-            g.setColor(Color.gray);
-            g.fillRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
-            g.setColor(Color.black);
-            g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
-        }
-        */
+            isMouseHover = false;
         
         if(isFitToContent())
         {
-            if(!isMouseDown)
+            if(isMouseDown)
             {
-                g.setColor(Color.gray);
-                g.fillRect(super.getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
-                g.setColor(Color.black);
+                g.setColor(backgroundPressedColor);
+                g.fillRect(getAbsoluteX() - 1, getAbsoluteY() - 1, getContentWidth() + getXPadding() - 1, getContentHeight() + getYPadding() - 1);
+                g.setColor(foregroundColor);
+                g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
+            }
+            else if(isMouseHover)
+            {
+                g.setColor(backgroundHoverColor);
+                g.fillRect(getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
+                g.setColor(foregroundColor);
                 g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
             }
             else
             {
-                g.setColor(Color.gray);
-                g.fillRect(getAbsoluteX() - 1, getAbsoluteY() - 1, getContentWidth() + getXPadding() - 1, getContentHeight() + getYPadding() - 1);
-                g.setColor(Color.black);
+                g.setColor(backgroundColor);
+                g.fillRect(getAbsoluteX(), getAbsoluteY(), getContentWidth() + getXPadding(), getContentHeight() + getYPadding());
+                g.setColor(foregroundColor);
                 g.drawString(getContent(), getAbsoluteX() + (((getContentWidth() + getXPadding()) - getContentWidth()) / 2), getAbsoluteY() + (((getContentHeight() + getYPadding()) - getContentHeight()) / 2));
             }
         }
         else
         {
-            if(!isMouseDown)
+            if(isMouseDown)
             {
-                g.setColor(Color.gray);
-                g.fillRect(super.getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
-                g.setColor(Color.black);
+                g.setColor(backgroundPressedColor);
+                g.fillRect(getAbsoluteX() + 1, getAbsoluteY() + 1, getWidth(), getHeight());
+                g.setColor(foregroundColor);
+                g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding() + 1, getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding() + 1);
+            }
+            else if(isMouseHover)
+            {
+                g.setColor(backgroundHoverColor);
+                g.fillRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+                g.setColor(foregroundColor);
                 g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
             }
             else
             {
-                g.setColor(Color.darkGray);
-                g.fillRect(super.getAbsoluteX() + 1, getAbsoluteY() + 1, getWidth(), getHeight());
-                g.setColor(Color.black);
-                g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding() + 1, getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding() + 1);
-            }  
+                g.setColor(backgroundColor);
+                g.fillRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+                g.setColor(foregroundColor);
+                g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
+            }
         }
+    }
+    
+    public Color getBackgroundColor()
+    {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(Color backgroundColor)
+    {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public Color getBorderColor()
+    {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor)
+    {
+        this.borderColor = borderColor;
+    }
+
+    public Color getForegroundColor()
+    {
+        return foregroundColor;
+    }
+
+    public void setForegroundColor(Color foregroundColor)
+    {
+        this.foregroundColor = foregroundColor;
+    }
+    
+    public Color getBackgroundPressedColor()
+    {
+        return backgroundPressedColor;
+    }
+
+    public void setBackgroundPressedColor(Color backgroundPressedColor)
+    {
+        this.backgroundPressedColor = backgroundPressedColor;
+    }
+
+    public Color getBackgroundHoverColor()
+    {
+        return backgroundHoverColor;
+    }
+
+    public void setBackgroundHoverColor(Color backgroundHoverColor)
+    {
+        this.backgroundHoverColor = backgroundHoverColor;
     }
 }

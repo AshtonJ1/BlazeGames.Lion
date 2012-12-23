@@ -14,13 +14,14 @@ public abstract class Component
     private int AbsoluteX, AbsoluteY, X, Y, Width, Height, ContentWidth, ContentHeight, XPadding, YPadding, Radius;
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private boolean isEnabled;
+    public boolean hasFocus;
     private String Content = "";
     
-    public void doAction()
+    public void doAction(String eventType)
     {
         if(isEnabled)
             for(ActionEvent actionEvent : ActionEvents)
-                if(actionEvent != null)
+                if(actionEvent != null && actionEvent.getEventType().equals(eventType))
                     actionEvent.actionPerformed();
     }
     

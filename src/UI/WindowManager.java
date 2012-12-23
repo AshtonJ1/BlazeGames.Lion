@@ -54,7 +54,7 @@ public class WindowManager
             Window window = Windows.get(Focused);
             
             if(window != null)
-                window.doAction(x, y);
+                window.onClick(x, y, button, clickCount);
         }
     }
     
@@ -82,22 +82,28 @@ public class WindowManager
             if(window != null)
                 window.stopAction(x, y); 
         }
-    }
+    } 
     
     private static void CheckWindows(int X, int Y)
     {
         boolean insideWindow = false;
         
         for(Window window : Windows)
-            if(window.Contains(X, Y))
+            if(window.Contains(X, Y) && window.isVisible())
                 insideWindow = true;
         
         if(!insideWindow)
+        {
             Focused = -1;
+            
+            for(Window window : Windows)
+                window.checkComponents(X, Y);
+        }
     }
     
     public static void requestFocus(Window window)
     {
+        
         for(int i = 0; i < Windows.size(); i++)
             if(Windows.get(i).equals(window))
                 if(Focused != i)
