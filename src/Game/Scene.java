@@ -151,8 +151,8 @@ public class Scene extends BasicGame
         wnd.addComponent(myTextbox);
         
         WindowManager.addWindow(wnd);*/
-        
-        currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
+        currentMapImage = fullMapImage.getScaledCopy(200, 200);
+        //currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
         wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 14, currentMapImage.getHeight() + 36);
         wndMiniMap.addComponent(new ImageContainer(currentMapImage, 0, 0));
         WindowManager.addWindow(wndMiniMap);
@@ -217,9 +217,9 @@ public class Scene extends BasicGame
 
             player.Draw();
             
-            g.copyArea(fullMapImage, 0, 0);
-            currentMapImage = fullMapImage.getSubImage(0, 0, Cam.getCamWidth() - 20, Cam.getCamHeight() - 20);
-            ((ImageContainer)wndMiniMap.getComponents()[0]).setImage(currentMapImage);
+            //g.copyArea(fullMapImage, 0, 0);
+            //currentMapImage = fullMapImage.getSubImage(0, 0, Cam.getCamWidth() - 20, Cam.getCamHeight() - 20);
+            //((ImageContainer)wndMiniMap.getComponents()[0]).setImage(currentMapImage);
             
             g.resetTransform();
 
