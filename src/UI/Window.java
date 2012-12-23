@@ -15,7 +15,15 @@ public class Window
 {
     private float X, Y;
     private int Width, Height, StartX, StartY, Radius, FocusedComponent = -1;
-    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false;
+    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false;
+
+    public boolean hasFocus() {
+        return hasFocus;
+    }
+
+    public void setFocused(boolean hasFocus) {
+        this.hasFocus = hasFocus;
+    }
     private String WindowTitle;
     private ArrayList<Component> Components = new ArrayList<>();
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
@@ -155,12 +163,29 @@ public class Window
     
     public void keyPressed(int Key, char Char)
     {
-        //for(Component component : Components)
-            //component.keyPressed(Key, Char);
         if(FocusedComponent != -1 && Components.size() > 0)
         {
-            Component component = Components.get(FocusedComponent);
-            component.keyPressed(Key, Char);
+            if(Key == Input.KEY_TAB)
+            {
+                FocusedComponent++;
+                
+                if(FocusedComponent < Components.size())
+                {
+                    Component component = Components.get(FocusedComponent);
+                    requestFocus(component);
+                }
+                else
+                {
+                    FocusedComponent = 0;
+                    Component component = Components.get(FocusedComponent);
+                    requestFocus(component);
+                }
+            }
+            else
+            {
+                Component component = Components.get(FocusedComponent);
+                component.keyPressed(Key, Char);
+            }
         }
     }
     
@@ -246,7 +271,7 @@ public class Window
                 if(Contains(input.getMouseX(), input.getMouseY()))
                     WindowManager.requestFocus(this);
                 
-                if((MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown) && !isComponentActive)
+                if((MenuContains(input.getMouseX(), input.getMouseY()) || isMouseDown) && !isComponentActive && hasFocus)
                 {
                     isMouseDown = true;
                     

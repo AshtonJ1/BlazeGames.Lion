@@ -50,13 +50,13 @@ public class Scene extends BasicGame
     
     private Image fullMapImage;
     
-    private Window wnd, wndMiniMap;
+    public Window wnd, wndMiniMap;
     
     public static Image PlayerImage;
     
     public Input input;
     
-    public float MapScale = 16.0F;
+    public float MapScale = 8.0F;
     
     Random random = new Random();
     

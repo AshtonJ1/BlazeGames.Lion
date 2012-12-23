@@ -106,8 +106,14 @@ public class WindowManager
         
         for(int i = 0; i < Windows.size(); i++)
             if(Windows.get(i).equals(window))
+            {
+                Windows.get(i).setFocused(true);
+
                 if(Focused != i)
                     Focused = i;
+            }
+            else
+                Windows.get(i).setFocused(false);
     }
     
     public static void resetFocus()

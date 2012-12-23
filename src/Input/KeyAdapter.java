@@ -21,6 +21,9 @@ public class KeyAdapter implements KeyListener
         if(!WindowManager.noFocus())
             WindowManager.keyPressed(key, c);
         
+        if(key == Input.KEY_M)
+            Scene.getInstance().wndMiniMap.setVisible(!Scene.getInstance().wndMiniMap.isVisible());
+        
         if(key == Input.KEY_ESCAPE)
             Program.Application.exit();
 
