@@ -8,6 +8,7 @@ import Network.ClientSocket;
 import UI.ActionEvent;
 import UI.Components.Button;
 import UI.Components.Component;
+import UI.Components.Label;
 import UI.Components.Map;
 import UI.Components.Textbox;
 import UI.Window;
@@ -62,7 +63,7 @@ public class Scene extends BasicGame
     
     private Scene()
     {
-        super("Blaze Games Lion's Beard");
+        super("Blaze \"Lion\"");
     }
     
     @Override
@@ -207,6 +208,9 @@ public class Scene extends BasicGame
                 player.WalkTo(500, 500);
             }
         });
+        
+        Label myLabel = new Label("test!", 0, 0);
+        wnd.addComponent(myLabel);
         wnd.addComponent(pass);
         Button tmp = new Button("Login", 10, 70, 165, 20);
         tmp.addActionEvent(new ActionEvent("onLeftClick")
