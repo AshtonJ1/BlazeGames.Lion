@@ -8,6 +8,7 @@ import Network.ClientSocket;
 import UI.ActionEvent;
 import UI.Components.Button;
 import UI.Components.Component;
+import UI.Components.Label;
 import UI.Components.Map;
 import UI.Components.Textbox;
 import UI.Window;
@@ -64,7 +65,7 @@ public class Scene extends BasicGame
     
     private Scene()
     {
-        super("Blaze Games Lion's Beard");
+        super("Blaze \"Lion\"");
     }
     
     @Override
