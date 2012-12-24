@@ -20,11 +20,13 @@ public class Program
         {
             Application = new AppGameContainer(Scene.getInstance());
             Application.setDisplayMode(800, 600, false);
-            //Application.setTargetFrameRate(120);
+            Application.setTargetFrameRate(60);
             Application.setUpdateOnlyWhenVisible(false);
             Application.setAlwaysRender(true);
             //Application.setVSync(true);
+            Application.setShowFPS(false);
             Application.start();
+            
             //Application.setVerbose(true);
         }
         catch(Exception e)

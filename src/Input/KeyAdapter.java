@@ -43,6 +43,8 @@ public class KeyAdapter implements KeyListener
                     Program.isFullscreen = true;
                     Scene.getInstance().Cam.setCamSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
                 }
+                
+                WindowManager.getWindow("Login").Center();
             }
             catch(SlickException e){}
         }

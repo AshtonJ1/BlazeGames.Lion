@@ -40,6 +40,8 @@ public class Scene extends BasicGame
         return Instance;
     }
     
+    boolean inGame = false;
+    
     public TiledMap mapDefault;
     public Camera Cam;
     
@@ -48,9 +50,9 @@ public class Scene extends BasicGame
     public Monster[] mobs;
     public GameContainer gc;
     
-    private Image fullMapImage;
+    private Image fullMapImage, backgroundImage;
     
-    public Window wnd, wndMiniMap;
+    public Window wndLogin, wndMiniMap;
     
     public static Image PlayerImage;
     
@@ -73,6 +75,7 @@ public class Scene extends BasicGame
         gc.getGraphics().setAntiAlias(true);
         
         fullMapImage = new Image("Resource/Maps/testmap.png");
+        backgroundImage = new Image("Resource/Images/background.png");
         
         PlayerImage = new Image("Resource/Sprite/Player.png");
         input = gc.getInput();
@@ -194,38 +197,49 @@ public class Scene extends BasicGame
         });
         WindowManager.addWindow(wndMiniMap);
         
-        wnd = new Window("Login", 200, 200, 200, 135);
-        Textbox txtBox = new Textbox(10, 10, 165, 20, false);
-        wnd.addComponent(txtBox);
+        wndLogin = new Window("Login", 200, 200, 200, 135);
+        wndLogin.Center();
         
-        Textbox pass = new Textbox(10, 40, 165, 20, true);
-        pass.addActionEvent(new ActionEvent("onReturn")
+        Textbox txtAccount = new Textbox(10, 10, 165, 20, false);
+        txtAccount.addActionEvent(new ActionEvent("onReturn")
         {
             @Override
             public void actionPerformed() 
             {
-                player.WalkTo(500, 500);
-            }
-        });
-        wnd.addComponent(pass);
-        Button tmp = new Button("Login", 10, 70, 165, 20);
-        tmp.addActionEvent(new ActionEvent("onLeftClick")
-        {
-            @Override
-            public void actionPerformed() {
-                player.WalkTo(500, 500);
-            }
-        });
-        tmp.addActionEvent(new ActionEvent("onRightClick")
-        {
-            @Override
-            public void actionPerformed() {
-                wnd.setVisible(false);
+                inGame = true;
+                wndLogin.setVisible(false);
+                Program.Application.setShowFPS(true);
             }
         });
         
-        wnd.addComponent(tmp);
-        WindowManager.addWindow(wnd);
+        Textbox txtPassword = new Textbox(10, 40, 165, 20, true);
+        txtPassword.addActionEvent(new ActionEvent("onReturn")
+        {
+            @Override
+            public void actionPerformed() 
+            {
+                inGame = true;
+                wndLogin.setVisible(false);
+                Program.Application.setShowFPS(true);
+            }
+        });
+        
+        Button btnLogin = new Button("Login", 10, 70, 165, 20);
+        btnLogin.addActionEvent(new ActionEvent("onLeftClick")
+        {
+            @Override
+            public void actionPerformed()
+            {
+                inGame = true;
+                wndLogin.setVisible(false);
+                Program.Application.setShowFPS(true);
+            }
+        });
+        
+        wndLogin.addComponent(txtAccount);
+        wndLogin.addComponent(txtPassword);
+        wndLogin.addComponent(btnLogin);
+        WindowManager.addWindow(wndLogin);
     }
     
     @Override
@@ -241,44 +255,56 @@ public class Scene extends BasicGame
     {
         if(Program.isRunning)
         {
-            
-            Cam.Render(g);         
-            mapDefault.render(0, 0);
-            
-            for(Monster mob : mobs)
-                if(Cam.isEntityInCamera(mob))
-                    mob.Draw();
+            if(!inGame)
+            {
+                g.drawImage(backgroundImage.getScaledCopy(Program.Application.getWidth(), Program.Application.getHeight()), 0, 0);
+                
+                if(wndMiniMap.isVisible())
+                    wndMiniMap.setVisible(false);
+            }
+            else
+            {
+                if(!wndMiniMap.isVisible())
+                    wndMiniMap.setVisible(true);
+                
+                Cam.Render(g);         
+                mapDefault.render(0, 0);
 
-            for(Player plyer : players.values())
-                plyer.Draw();
+                for(Monster mob : mobs)
+                    if(Cam.isEntityInCamera(mob))
+                        mob.Draw();
 
-            player.Draw();
-            
-            int miniMapX = (int)player.getXCenter() - (int)(100 * MapScale);
-            int miniMapY = (int)player.getYCenter() - (int)(100 * MapScale);
-            
-            if(miniMapX < 0)
-                miniMapX = 0;
-            else if(miniMapX + (int)(200 * MapScale) > mapDefault.getWidth() * 32)
-                miniMapX = (mapDefault.getWidth() * 32) - (int)(200 * MapScale);
-            if(miniMapY < 0)
-                miniMapY = 0;
-            else if(miniMapY + (int)(200 * MapScale) > mapDefault.getHeight() * 32)
-                miniMapY = (mapDefault.getHeight() * 32) - (int)(200 * MapScale);
-            
-            currentMapImage = fullMapImage.getSubImage(miniMapX, miniMapY, (int)(200 * MapScale), (int)(200 * MapScale)).getScaledCopy(200, 200);
-            Map map = (Map)wndMiniMap.getComponents()[0];
-            map.setImage(currentMapImage);
-            map.setFullMapX(miniMapX);
-            map.setFullMapY(miniMapY);
-            
-            g.resetTransform();
+                for(Player plyer : players.values())
+                    plyer.Draw();
 
-            g.setColor(Color.white);
-            g.drawString("X: " + player.getX() + " Y: " + player.getY(), 10, 30);
-            g.drawString("Health: ", 10, 50);
-            g.setColor(Color.red);
-            g.fillRect(80, 55, 100, 10);
+                player.Draw();
+
+                int miniMapX = (int)player.getXCenter() - (int)(100 * MapScale);
+                int miniMapY = (int)player.getYCenter() - (int)(100 * MapScale);
+
+                if(miniMapX < 0)
+                    miniMapX = 0;
+                else if(miniMapX + (int)(200 * MapScale) > mapDefault.getWidth() * 32)
+                    miniMapX = (mapDefault.getWidth() * 32) - (int)(200 * MapScale);
+                if(miniMapY < 0)
+                    miniMapY = 0;
+                else if(miniMapY + (int)(200 * MapScale) > mapDefault.getHeight() * 32)
+                    miniMapY = (mapDefault.getHeight() * 32) - (int)(200 * MapScale);
+
+                currentMapImage = fullMapImage.getSubImage(miniMapX, miniMapY, (int)(200 * MapScale), (int)(200 * MapScale)).getScaledCopy(200, 200);
+                Map map = (Map)wndMiniMap.getComponents()[0];
+                map.setImage(currentMapImage);
+                map.setFullMapX(miniMapX);
+                map.setFullMapY(miniMapY);
+
+                g.resetTransform();
+
+                g.setColor(Color.white);
+                g.drawString("X: " + player.getX() + " Y: " + player.getY(), 10, 30);
+                g.drawString("Health: ", 10, 50);
+                g.setColor(Color.red);
+                g.fillRect(80, 55, 100, 10);
+            }
             
             WindowManager.RenderWindows(g);
         }

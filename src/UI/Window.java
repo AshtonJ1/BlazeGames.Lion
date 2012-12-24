@@ -1,5 +1,6 @@
 package UI;
 
+import Game.Program;
 import Game.Scene;
 import UI.Components.Component;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Window
     private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false;
     
     private String WindowTitle;
+
     private ArrayList<Component> Components = new ArrayList<>();
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private Input input;
@@ -270,6 +272,11 @@ public class Window
             return false;
     }
     
+    public void Center()
+    {
+        this.setLocation((Program.Application.getWidth() / 2) - (this.getWidth() / 2), (Program.Application.getHeight() / 2) - (this.getHeight() / 2));
+    }
+    
     public void Render(Graphics g)
     {
         if(isVisible)
@@ -345,5 +352,15 @@ public class Window
     public Component[] getComponents()
     {
         return Components.toArray(new Component[Components.size()]);
+    }
+    
+    public String getWindowTitle()
+    {
+        return WindowTitle;
+    }
+
+    public void setWindowTitle(String WindowTitle)
+    {
+        this.WindowTitle = WindowTitle;
     }
 }

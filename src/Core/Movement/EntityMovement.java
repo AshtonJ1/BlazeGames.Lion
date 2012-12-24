@@ -29,7 +29,7 @@ public class EntityMovement implements Runnable
                 for(Player player : scene.players.values())
                     player.AIMove();
                 
-                Thread.sleep(8);
+                Thread.sleep(20);
             }
             catch(Exception e)
             {

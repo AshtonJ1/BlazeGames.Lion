@@ -9,7 +9,16 @@ import org.newdawn.slick.Graphics;
  */
 public class WindowManager
 {
-    public static ArrayList<Window> Windows = new ArrayList<>(); 
+    private static ArrayList<Window> Windows = new ArrayList<>(); 
+
+    public static Window getWindow(String windowTitle)
+    {
+        for(Window wnd : Windows)
+            if(wnd.getWindowTitle().equals(windowTitle))
+                return wnd;
+        
+        return null;
+    }
     private static int Focused = -1;
     
     public static void addWindow(Window window)
