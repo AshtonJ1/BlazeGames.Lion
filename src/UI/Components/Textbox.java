@@ -14,7 +14,8 @@ import org.newdawn.slick.Input;
 
 public class Textbox extends Component
 {
-    private boolean isPassword;
+    private boolean isPassword, stretchX, stretchY;
+
     private int cursorPosition;
     private Color backgroundColor = Color.white, borderColor = Color.black, foregroundColor = Color.black;
     
@@ -100,6 +101,11 @@ public class Textbox extends Component
         
         setAbsoluteLocation((int)ParentX+getX(), (int)ParentY+getY(), 0);
         
+        if(stretchX)
+            setSize(ParentWidth - (getX() * 2), getHeight());
+        if(stretchY)
+            setSize(getWidth(), ParentHeight - (getY() * 2));
+        
         g.setColor(borderColor);
         g.drawRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
         g.setColor(backgroundColor);
@@ -182,5 +188,25 @@ public class Textbox extends Component
     public void setForegroundColor(Color foregroundColor)
     {
         this.foregroundColor = foregroundColor;
+    }
+    
+    public boolean isStretchX()
+    {
+        return stretchX;
+    }
+
+    public void setStretchX(boolean stretchX)
+    {
+        this.stretchX = stretchX;
+    }
+
+    public boolean isStretchY()
+    {
+        return stretchY;
+    }
+
+    public void setStretchY(boolean stretchY)
+    {
+        this.stretchY = stretchY;
     }
 }

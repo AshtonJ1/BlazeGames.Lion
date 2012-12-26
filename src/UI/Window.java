@@ -6,7 +6,9 @@ import UI.Components.Component;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -15,38 +17,54 @@ import org.newdawn.slick.Input;
 public class Window
 {
     private float X, Y;
-    private int Width, Height, StartX, StartY, Radius, FocusedComponent = -1;
-    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false;
-    
+    private int Width, Height, StartX, StartY, FocusedComponent = -1;
+    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false, showMin, showClose;
+
     private String WindowTitle;
 
     private ArrayList<Component> Components = new ArrayList<>();
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private Input input;
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, int Radius,boolean ShowClose, boolean isPinned)
+    private Image bgTopLeft, bgTopCenter, bgTopRight, bgCenterLeft, bgCenterRight, bgBottomLeft, bgBottomCenter, bgBottomRight, bg, btnClose, btnMin;
+    
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose) throws SlickException
     {
+        this.bgTopLeft = new Image("Resource/UI/wnd_top_left.png");
+        this.bgTopCenter = new Image("Resource/UI/wnd_top_center.png");
+        this.bgTopRight = new Image("Resource/UI/wnd_top_right.png");
+        this.bgCenterLeft = new Image("Resource/UI/wnd_center_left.png");
+        this.bgCenterRight = new Image("Resource/UI/wnd_center_right.png");
+        this.bgBottomLeft = new Image("Resource/UI/wnd_bottom_left.png");
+        this.bgBottomCenter = new Image("Resource/UI/wnd_bottom_center.png");
+        this.bgBottomRight = new Image("Resource/UI/wnd_bottom_right.png");
+        this.bg = new Image("Resource/UI/wnd_bg.png");
+        this.btnClose = new Image("Resource/UI/wnd_btn_close.png");
+        this.btnMin = new Image("Resource/UI/wnd_btn_min.png");
+        
         this.WindowTitle = WindowTitle;
         
         setLocation(X, Y);
-        setSize(Width, Height, Radius);   
+        setSize(Width, Height);   
         
         this.isFirstRender = true;
         this.isVisible = true;
         this.isMouseDown = false;
         this.isPinned = isPinned;
+        this.showMin = showMin;
+        this.showClose = showClose;
         
         input = Scene.getInstance().input;
     }
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean ShowClose, boolean isPinned)
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned) throws SlickException
     {
-        this(WindowTitle, X, Y, Width, Height, 0, ShowClose, isPinned);
+        this(WindowTitle, X, Y, Width, Height, isPinned, false, true);
     }
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height)
+    public Window(String WindowTitle, float X, float Y, int Width, int Height) throws SlickException
     {
-        this(WindowTitle, X, Y, Width, Height, 0, true, false);
+        this(WindowTitle, X, Y, Width, Height, false, false, true);
     }
     
     public boolean hasFocus()
@@ -82,10 +100,12 @@ public class Window
                     actionEvent.actionPerformed();
     }
     
-    public void addActionEvent(ActionEvent actionEvent)
+    public Window addActionEvent(ActionEvent actionEvent)
     {
         if(!ActionEvents.contains(actionEvent))
             ActionEvents.add(actionEvent);
+        
+        return this;
     }
     
     public void requestFocus(Component component)
@@ -199,19 +219,22 @@ public class Window
         }
     }
     
-    public void addComponent(Component component)
+    public Window addComponent(Component component)
     {
         Components.add(component);
+        return this;
     }
     
-    public void removeComponent(Component component)
+    public Window removeComponent(Component component)
     {
         Components.remove(component);
+        return this;
     }
     
-    public void setVisible(boolean isVisible)
+    public Window setVisible(boolean isVisible)
     {
         this.isVisible = isVisible;
+        return this;
     }
     
     public boolean isVisible()
@@ -219,9 +242,10 @@ public class Window
         return isVisible;
     }
     
-    public void setPinned(boolean isPinned)
+    public Window setPinned(boolean isPinned)
     {
         this.isPinned = isPinned;
+        return this;
     }
     
     public boolean isPinned()
@@ -229,23 +253,33 @@ public class Window
         return isPinned;
     }
     
-    public final void setLocation(float X, float Y)
+    public final Window setLocation(float X, float Y)
     {
         this.X = X;
         this.Y = Y;
         
         this.StartX = (int)X;
         this.StartY = (int)Y;
+        
+        return this;
     }
     
-    public final void setSize(int Width, int Height, int Radius)
+    public final Window setSize(int Width, int Height)
     {
-        this.Width = Width;
-        this.Height = Height;
-        this.Radius = Radius;
+        if(Width < bgTopLeft.getWidth() + bgTopCenter.getWidth() + bgTopRight.getWidth())
+            this.Width = bgTopLeft.getWidth() + bgTopCenter.getWidth() + bgTopRight.getWidth();
+        else
+            this.Width = Width;
+        
+        if(Height < bgTopLeft.getHeight() + bgCenterLeft.getHeight() + bgBottomLeft.getHeight())
+            this.Height = bgTopLeft.getHeight() + bgCenterLeft.getHeight() + bgBottomLeft.getHeight();
+        else
+            this.Height = Height;
+        
+        return this;
     }
     
-    private void Move(int X, int Y)
+    private Window Move(int X, int Y)
     {
         this.X += X;
         this.Y += Y;
@@ -254,11 +288,13 @@ public class Window
         StartY = input.getMouseY();
         
         isFirstRender = false;
+        
+        return this;
     }
     
     public boolean Contains(int PointX, int PointY)
     {
-        if(PointX >= X && PointY >= Y && PointX <= (X+Width) && PointY <= (Y+Height))
+        if(PointX >= X + 5 && PointY >= Y + 5 && PointX <= ((X - 10) + Width) && PointY <= ((Y - 10) + Height))
             return true;
         else
             return false;
@@ -266,15 +302,16 @@ public class Window
     
     public boolean MenuContains(int PointX, int PointY)
     {
-        if(PointX >= X+13 && PointY >= Y+7 && PointX <= (X-7+Width) && PointY <= (Y+29))
+        if(PointX >= X + 5 && PointY >= Y + 5 && PointX <= ((X - 10) + Width) && PointY <= (Y + 40))
             return true;
         else
             return false;
     }
     
-    public void Center()
+    public Window Center()
     {
         this.setLocation((Program.Application.getWidth() / 2) - (this.getWidth() / 2), (Program.Application.getHeight() / 2) - (this.getHeight() / 2));
+        return this;
     }
     
     public void Render(Graphics g)
@@ -307,17 +344,36 @@ public class Window
                 isMouseDown = false;
                 isFirstRender = true;
             }
-        
-            g.setColor(new Color(24, 24, 24));
+            
+            bg.draw(X + 14, Y + 14, Width - 28, Height - 28);
+            
+            bgTopLeft.draw(X, Y);
+            bgTopCenter.draw(X + bgTopLeft.getWidth(), Y, Width - (bgTopLeft.getWidth() + bgTopRight.getWidth()), bgTopCenter.getHeight());
+            bgTopRight.draw((X + Width) - bgTopRight.getWidth(), Y);
+            
+            bgCenterLeft.draw(X, Y + bgTopLeft.getHeight(), bgCenterLeft.getWidth(), Height - (bgTopLeft.getHeight() + bgBottomLeft.getHeight()));
+            bgCenterRight.draw((X + Width) - bgCenterRight.getWidth(), Y + bgTopRight.getHeight(), bgCenterRight.getWidth(), Height - (bgTopRight.getHeight() + bgBottomRight.getHeight()));
+            
+            bgBottomLeft.draw(X, (Y + Height) - bgBottomLeft.getHeight());
+            bgBottomCenter.draw(X + bgBottomLeft.getWidth(), (Y + Height) - bgBottomCenter.getHeight(), Width - (bgBottomLeft.getWidth() + bgBottomRight.getWidth()), bgBottomCenter.getHeight());
+            bgBottomRight.draw((X + Width) - bgBottomRight.getWidth(), (Y + Height) - bgBottomRight.getHeight());
+            
+            if(showMin)
+                btnMin.draw((X + Width - (btnClose.getWidth() + 13)) - btnMin.getWidth(), Y + 12);
+            
+            if(showClose)
+                btnClose.draw((X + Width - 15) - btnClose.getWidth(), Y + 12);
+            
+            /*g.setColor(new Color(24, 24, 24));
             g.drawRoundRect(X, Y, Width, Height, Radius);
             g.setColor(new Color(98, 98, 98));
             g.drawRoundRect(X + 1, Y + 1, Width - 2, Height - 2, Radius);
             g.setColor(new Color(7, 17, 26));
             g.fillRoundRect(X + 2, Y + 2, Width - 3, Height - 3, Radius);
             g.setColor(new Color(12, 32, 50));
-            g.fillRoundRect(X + 7, Y + 7, Width - 13, Height - 13, Radius);
+            g.fillRoundRect(X + 7, Y + 7, Width - 13, Height - 13, Radius);*/
             
-            if(Radius == 0)
+            /*if(Radius == 0)
             {
                 //Draw Close Button
                 
@@ -343,6 +399,12 @@ public class Window
                     component.Render(g, this.X, this.Y, this.Width, this.Height);
                     component.doAction("onRender");
                 }
+            }*/
+            
+            for(Component component : Components)
+            {
+                component.Render(g, this.X + 20, this.Y + 40, this.Width - 40, this.Height - 60);
+                component.doAction("onRender");
             }
             
             doAction("onRender");
@@ -359,8 +421,31 @@ public class Window
         return WindowTitle;
     }
 
-    public void setWindowTitle(String WindowTitle)
+    public Window setWindowTitle(String WindowTitle)
     {
         this.WindowTitle = WindowTitle;
+        return this;
+    }
+    
+    public boolean isShowMin()
+    {
+        return showMin;
+    }
+
+    public Window setShowMin(boolean showMin)
+    {
+        this.showMin = showMin;
+        return this;
+    }
+
+    public boolean isShowClose()
+    {
+        return showClose;
+    }
+
+    public Window setShowClose(boolean showClose)
+    {
+        this.showClose = showClose;
+        return this;
     }
 }

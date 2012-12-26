@@ -13,7 +13,9 @@ import UI.Components.Map;
 import UI.Components.Textbox;
 import UI.Window;
 import UI.WindowManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -51,7 +53,7 @@ public class Scene extends BasicGame
     public Monster[] mobs;
     public GameContainer gc;
     
-    private Image fullMapImage, backgroundImage;
+    private Image fullMapImage, backgroundImage, alphaMap;
     
     public Window wndLogin, wndMiniMap;
     
@@ -62,6 +64,44 @@ public class Scene extends BasicGame
     public float MapScale = 8.0F;
     
     Random random = new Random();
+    
+    private List<Light> lights = new ArrayList<>();
+    
+    private Color sharedColor = new Color(1f, 1f, 1f, 1f);
+    
+    public static class Light
+    {
+        /** The position of the light */
+        float x, y;
+        /** The RGB tint of the light, alpha is ignored */
+        Color tint;
+        /** The alpha value of the light, default 1.0 (100%) */
+        float alpha;
+        /** The amount to scale the light (use 1.0 for default size). */
+        private float scale;
+        //original scale
+        private float scaleOrig;
+               
+        public Light(float x, float y, float scale, Color tint)
+        {
+            this.x = x;
+            this.y = y;
+            this.scale = scaleOrig = scale;
+            this.alpha = 1f;
+            this.tint = tint;
+        }
+               
+        public Light(float x, float y, float scale)
+        {
+            this(x, y, scale, Color.white);
+        }
+               
+        public void update(float time)
+        {
+            //effect: scale the light slowly using a sin func
+            scale = scaleOrig + 1f + .5f*(float)Math.sin(time);
+        }
+    }
     
     private Scene()
     {
@@ -77,6 +117,7 @@ public class Scene extends BasicGame
         
         fullMapImage = new Image("Resource/Maps/testmap.png");
         backgroundImage = new Image("Resource/Images/background.png");
+        alphaMap = new Image("Resource/Sprite/Lighting.png");
         
         PlayerImage = new Image("Resource/Sprite/Player.png");
         input = gc.getInput();
@@ -161,47 +202,48 @@ public class Scene extends BasicGame
         WindowManager.addWindow(wnd);*/
         currentMapImage = fullMapImage.getScaledCopy(200, 200);
         //currentMapImage = fullMapImage.getSubImage(-(int)Cam.GetXPos(), -(int)Cam.GetYPos(), Cam.getCamWidth(), Cam.getCamHeight()).getScaledCopy(.25F);
-        wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 14, currentMapImage.getHeight() + 36);
+        wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 40, currentMapImage.getHeight() + 60);
         wndMiniMap.addComponent(new Map(currentMapImage, 0, 0));
         
-        Button btnMapZoomIn = new Button("+", (wndMiniMap.getWidth() - (32 + 20)), -21, 15, 15);
-        Button btnMapZoomOut = new Button("-", (wndMiniMap.getWidth() - 32), -21, 15, 15);
+        Button btnMapZoomIn = new Button("+", (wndMiniMap.getWidth() - (62 + 20)), -21, 15, 15);
+        Button btnMapZoomOut = new Button("-", (wndMiniMap.getWidth() - 62), -21, 15, 15);
         
         btnMapZoomIn.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale > 1) MapScale--; }});
         btnMapZoomOut.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale < 16) MapScale++; }});
         
-        wndMiniMap.addComponent(btnMapZoomIn);
-        wndMiniMap.addComponent(btnMapZoomOut);
-        
-        wndMiniMap.addActionEvent(new ActionEvent("onRender")
-        {
-            @Override
-            public void actionPerformed()
+        wndMiniMap.addComponent(btnMapZoomIn).
+            addComponent(btnMapZoomOut).
+            addActionEvent(new ActionEvent("onRender")
             {
-                Graphics g = Scene.getInstance().gc.getGraphics();
-                Map map = (Map)wndMiniMap.getComponents()[0];
-                
-                
-                Rectangle miniMapZone = new Rectangle(map.getFullMapX(), map.getFullMapY(), map.getWidth() * MapScale, map.getHeight() * MapScale);
-                g.setColor(Color.red);
-                for(Monster mob : mobs)
+                @Override
+                public void actionPerformed()
                 {
-                    if(miniMapZone.contains(mob.getX(), mob.getY()))
+                    Graphics g = Scene.getInstance().gc.getGraphics();
+                    Map map = (Map)wndMiniMap.getComponents()[0];
+
+
+                    Rectangle miniMapZone = new Rectangle(map.getFullMapX(), map.getFullMapY(), map.getWidth() * MapScale, map.getHeight() * MapScale);
+                    g.setColor(Color.red);
+                    for(Monster mob : mobs)
                     {
-                        g.fillRect(map.getAbsoluteX() + ((mob.getX() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((mob.getY() - map.getFullMapY()) / MapScale), 5, 5);
+                        if(miniMapZone.contains(mob.getX(), mob.getY()))
+                        {
+                            g.fillRect(map.getAbsoluteX() + ((mob.getX() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((mob.getY() - map.getFullMapY()) / MapScale), 5, 5);
+                        }
                     }
+
+                    g.setColor(Color.blue);
+                    g.fillRect(map.getAbsoluteX() + ((player.getXCenter() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((player.getYCenter() - map.getFullMapY()) / MapScale), 5, 5);
                 }
-                
-                g.setColor(Color.blue);
-                g.fillRect(map.getAbsoluteX() + ((player.getXCenter() - map.getFullMapX()) / MapScale), map.getAbsoluteY() + ((player.getYCenter() - map.getFullMapY()) / MapScale), 5, 5);
-            }
-        });
+            });
+        
         WindowManager.addWindow(wndMiniMap);
         
-        wndLogin = new Window("Login", 200, 200, 200, 135);
+        wndLogin = new Window("Login", 200, 200, 250, 175);
         wndLogin.Center();
         
-        Textbox txtAccount = new Textbox(10, 10, 165, 20, false);
+        Textbox txtAccount = new Textbox(15, 10, 165, 20, false);
+        txtAccount.setStretchX(true);
         txtAccount.addActionEvent(new ActionEvent("onReturn")
         {
             @Override
@@ -213,7 +255,8 @@ public class Scene extends BasicGame
             }
         });
         
-        Textbox txtPassword = new Textbox(10, 40, 165, 20, true);
+        Textbox txtPassword = new Textbox(15, 40, 165, 20, true);
+        txtPassword.setStretchX(true);
         txtPassword.addActionEvent(new ActionEvent("onReturn")
         {
             @Override
@@ -225,7 +268,8 @@ public class Scene extends BasicGame
             }
         });
         
-        Button btnLogin = new Button("Login", 10, 70, 165, 20);
+        Button btnLogin = new Button("Login", 15, 70, 165, 20);
+        btnLogin.setStretchX(true);
         btnLogin.addActionEvent(new ActionEvent("onLeftClick")
         {
             @Override
@@ -237,10 +281,14 @@ public class Scene extends BasicGame
             }
         });
         
-        wndLogin.addComponent(txtAccount);
-        wndLogin.addComponent(txtPassword);
-        wndLogin.addComponent(btnLogin);
+        wndLogin.addComponent(txtAccount).
+            addComponent(txtPassword).
+            addComponent(btnLogin).
+            Center().
+            setShowMin(true);
         WindowManager.addWindow(wndLogin);
+        
+        //lights.add(new Light(100, 100, 1));
     }
     
     @Override
@@ -268,6 +316,37 @@ public class Scene extends BasicGame
                 if(!wndMiniMap.isVisible())
                     wndMiniMap.setVisible(true);
                 
+                for (int i=0; i<lights.size(); i++)
+                {
+                    Light light = lights.get(i);
+                                               
+                    //set up our alpha map for the light
+                    g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+                    //clear the alpha map before we draw to it...
+                    g.clearAlphaMap();
+                       
+                    //centre the light
+                    int alphaW = (int)(alphaMap.getWidth() * light.scale);
+                    int alphaH = (int)(alphaMap.getHeight() * light.scale);
+                    int alphaX = (int)(light.x - alphaW/2f);
+                    int alphaY = (int)(light.y - alphaH/2f);
+                       
+                    //we apply the light alpha here; RGB will be ignored
+                    sharedColor.a = light.alpha;
+                       
+                    //draw the alpha map
+                    alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
+                       
+                    //start blending in our tiles
+                    g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+                      
+                    //we'll clip to the alpha rectangle, since anything outside of it will be transparent
+                    g.setClip(alphaX, alphaY, alphaW, alphaH);
+                       
+                    light.tint.bind();
+                }
+                
+                
                 Cam.Render(g);         
                 mapDefault.render(0, 0);
 
@@ -280,6 +359,8 @@ public class Scene extends BasicGame
 
                 player.Draw();
 
+                g.setDrawMode(Graphics.MODE_NORMAL);
+                
                 int miniMapX = (int)player.getXCenter() - (int)(100 * MapScale);
                 int miniMapY = (int)player.getYCenter() - (int)(100 * MapScale);
 
@@ -300,6 +381,9 @@ public class Scene extends BasicGame
 
                 g.resetTransform();
 
+                //g.setColor(new Color(0, 0, 0, 150));
+                //g.fill(new Rectangle(0, 0, Program.Application.getWidth(), Program.Application.getHeight()));
+                
                 g.setColor(Color.white);
                 g.drawString("X: " + player.getX() + " Y: " + player.getY(), 10, 30);
                 g.drawString("Health: ", 10, 50);

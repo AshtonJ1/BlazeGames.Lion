@@ -15,7 +15,7 @@ import org.newdawn.slick.Input;
 
 public class Button extends Component
 {
-    private boolean isMouseDown, isMouseHover;
+    private boolean isMouseDown, isMouseHover, stretchX, stretchY;
     private Color backgroundColor = Color.lightGray, backgroundPressedColor = Color.darkGray, backgroundHoverColor = Color.gray, borderColor = Color.black, foregroundColor = Color.white;
     
     public Button(String Content, int X, int Y, int Width, int Height, int XPadding, int YPadding, boolean Enabled)
@@ -70,8 +70,14 @@ public class Button extends Component
         else
             isMouseHover = false;
         
+        
         if(isFitToContent())
         {
+            if(stretchX)
+                setContentWidth((ParentWidth - (getX() * 2)) + getXPadding());
+            if(stretchY)
+                setContentHeight((ParentHeight - (getY() * 2)) + getYPadding());
+        
             if(isMouseDown)
             {
                 g.setColor(backgroundPressedColor);
@@ -96,6 +102,11 @@ public class Button extends Component
         }
         else
         {
+            if(stretchX)
+                setSize(ParentWidth - (getX() * 2), getHeight());
+            if(stretchY)
+                setSize(getWidth(), ParentHeight - (getY() * 2));
+        
             if(isMouseDown)
             {
                 g.setColor(backgroundPressedColor);
@@ -168,5 +179,25 @@ public class Button extends Component
     public void setBackgroundHoverColor(Color backgroundHoverColor)
     {
         this.backgroundHoverColor = backgroundHoverColor;
+    }
+    
+        public boolean isStretchX()
+    {
+        return stretchX;
+    }
+
+    public void setStretchX(boolean stretchX)
+    {
+        this.stretchX = stretchX;
+    }
+
+    public boolean isStretchY()
+    {
+        return stretchY;
+    }
+
+    public void setStretchY(boolean stretchY)
+    {
+        this.stretchY = stretchY;
     }
 }
