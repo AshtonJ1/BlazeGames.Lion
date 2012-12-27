@@ -4,7 +4,6 @@
  */
 package UI.Components;
 
-import Game.Scene;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 

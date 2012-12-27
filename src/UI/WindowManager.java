@@ -24,6 +24,7 @@ public class WindowManager
             wndBg, 
             wndBtnClose, 
             wndBtnMin,
+            wndBgMinimap,
             btnBgLeft, 
             btnBgCenter, 
             btnBgRight, 
@@ -47,6 +48,7 @@ public class WindowManager
         wndBg = new Image("Resource/UI/wnd_bg.png");
         wndBtnClose = new Image("Resource/UI/wnd_btn_close.png");
         wndBtnMin = new Image("Resource/UI/wnd_btn_min.png");
+        wndBgMinimap = new Image("Resource/UI/wnd_minimap.png");
         
         btnBgLeft = new Image("Resource/UI/btn_1_left.png");
         btnBgCenter = new Image("Resource/UI/btn_1_center.png");

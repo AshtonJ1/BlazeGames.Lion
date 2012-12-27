@@ -2,6 +2,7 @@ package Input;
 
 import Game.Program;
 import Game.Scene;
+import UI.Window;
 import UI.WindowManager;
 import java.awt.Toolkit;
 import org.newdawn.slick.Input;
@@ -45,6 +46,8 @@ public class KeyAdapter implements KeyListener
                 }
                 
                 WindowManager.getWindow("Login").Center();
+                Window Minimap = WindowManager.getWindow("Minimap");
+                Minimap.setLocation(Program.Application.getWidth() - Minimap.getWidth(), Minimap.getY());
             }
             catch(SlickException e){}
         }

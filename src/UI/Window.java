@@ -7,9 +7,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 /**
@@ -19,19 +17,22 @@ import org.newdawn.slick.TrueTypeFont;
 public class Window
 {
     private float X, Y;
-    private int Width, Height, StartX, StartY, FocusedComponent = -1;
-    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false, showMin, showClose, titleVisible = true;
+    private int Width, Height, FocusedComponent = -1;
+    public int StartX, StartY;
+    public boolean isFirstRender, isVisible, isComponentActive = false, hasFocus = false, showMin, showClose, titleVisible = true;
 
+    public boolean isMouseDown, isPinned;
+    
     private String WindowTitle;
 
     private ArrayList<Component> Components = new ArrayList<>();
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
-    private Input input;
+    public Input input;
     
     private TrueTypeFont titleFont;
     private Color titleColor;
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose, boolean titleVisible) throws SlickException
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose, boolean titleVisible)
     {
         this.titleFont = new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true);
         this.titleColor = new Color(194, 192, 180);
@@ -51,17 +52,17 @@ public class Window
         input = Scene.getInstance().input;
     }
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose) throws SlickException
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose)
     {
         this(WindowTitle, X, Y, Width, Height, isPinned, showMin, showClose, true);
     }
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned) throws SlickException
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned)
     {
         this(WindowTitle, X, Y, Width, Height, isPinned, false, true, true);
     }
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height) throws SlickException
+    public Window(String WindowTitle, float X, float Y, int Width, int Height)
     {
         this(WindowTitle, X, Y, Width, Height, false, false, true, true);
     }
@@ -278,7 +279,7 @@ public class Window
         return this;
     }
     
-    private Window Move(int X, int Y)
+    public Window Move(int X, int Y)
     {
         this.X += X;
         this.Y += Y;
@@ -435,5 +436,25 @@ public class Window
     public void setTitleVisible(boolean titleVisible)
     {
         this.titleVisible = titleVisible;
+    }
+
+    public float getX()
+    {
+        return X;
+    }
+
+    public void setX(float X)
+    {
+        this.X = X;
+    }
+
+    public float getY()
+    {
+        return Y;
+    }
+
+    public void setY(float Y)
+    {
+        this.Y = Y;
     }
 }
