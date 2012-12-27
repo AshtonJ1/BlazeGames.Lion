@@ -5,7 +5,9 @@ import java.awt.MouseInfo;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -14,13 +16,18 @@ import org.newdawn.slick.Input;
 
 public class Textbox extends Component
 {
-    private boolean isPassword, stretchX, stretchY;
+    private boolean isPassword, stretchX;
 
-    private int cursorPosition;
-    private Color backgroundColor = Color.white, borderColor = Color.black, foregroundColor = Color.black;
+    private int cursorPosition, Height = 27;
+    private Color foregroundColor = Color.gray;
+    private Image bgLeft, bgCenter, bgRight;
     
-    public Textbox(int X, int Y, int Width, int Height, boolean isPassword)
+    public Textbox(int X, int Y, int Width, boolean isPassword) throws SlickException
     {
+        bgLeft = new Image("Resource/UI/txtbox_left.png");
+        bgCenter = new Image("Resource/UI/txtbox_center.png");
+        bgRight = new Image("Resource/UI/txtbox_right.png");
+        
         this.isPassword = isPassword;
         
         setLocation(X, Y);
@@ -30,14 +37,23 @@ public class Textbox extends Component
         cursorPosition = 0;
     }
     
-    public Textbox(int X, int Y, int Width, int Height)
+    public Textbox(int X, int Y, int Width) throws SlickException
     {
-        this(X, Y, Width, Height, false);
+        this(X, Y, Width, false);
     }
     
-    public Textbox(int X, int Y)
+    public Textbox(int X, int Y) throws SlickException
     {
-        this(X, Y, 100, 20, false);
+        this(X, Y, 100, false);
+    }
+    
+    @Override
+    public final void setSize(int Width, int Height)
+    {
+        if(Width < bgLeft.getWidth() + bgCenter.getWidth() + bgRight.getWidth())
+            Width = bgLeft.getWidth() + bgCenter.getWidth() + bgRight.getWidth();
+        
+        super.setSize(Width, this.Height);
     }
     
     @Override
@@ -96,24 +112,25 @@ public class Textbox extends Component
     {
         currentFrame++;
         
-        if(currentFrame == 120)
+        if(currentFrame == 60)
             currentFrame = 1;
         
         setAbsoluteLocation((int)ParentX+getX(), (int)ParentY+getY(), 0);
         
         if(stretchX)
             setSize(ParentWidth - (getX() * 2), getHeight());
-        if(stretchY)
-            setSize(getWidth(), ParentHeight - (getY() * 2));
         
-        g.setColor(borderColor);
-        g.drawRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
-        g.setColor(backgroundColor);
-        g.fillRect(getAbsoluteX() + 2, getAbsoluteY() + 2, getWidth() - 3, getHeight() - 3);
+        bgLeft.draw(getAbsoluteX(), getAbsoluteY());
+        bgCenter.draw(getAbsoluteX() + bgLeft.getWidth(), getAbsoluteY(), getWidth() - (bgLeft.getWidth() + bgRight.getWidth()), bgCenter.getHeight());
+        bgRight.draw(getAbsoluteX() + (getWidth() - bgRight.getWidth()), getAbsoluteY());
+        
+        //g.setColor(borderColor);
+        //g.drawRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+        //g.setColor(backgroundColor);
+        //g.fillRect(getAbsoluteX() + 2, getAbsoluteY() + 2, getWidth() - 3, getHeight() - 3);
+        
         g.setColor(foregroundColor);
-        
         Font font = g.getFont();
-        
         String drawContent = getContent();
         if(isPassword)
             drawContent = drawContent.replaceAll("[^*]", "*");
@@ -146,40 +163,20 @@ public class Textbox extends Component
             //System.out.println(startDrawContent);
         }
         
-        if(hasFocus && currentFrame < 60)
+        if(hasFocus && currentFrame < 30)
         {
             if(cursorPosition == 0)
-                g.drawLine(getAbsoluteX() + 3, getAbsoluteY() + 3, getAbsoluteX() + 3, (getAbsoluteY() + getHeight()) - 3);
+                g.drawLine(getAbsoluteX() + 5, getAbsoluteY() + 3, getAbsoluteX() + 5, (getAbsoluteY() + getHeight()) - 3);
             else
             {
-                int textWidth = g.getFont().getWidth(getContent().substring(startDrawContent, cursorPosition));
-                g.drawLine(getAbsoluteX() + textWidth + 2, getAbsoluteY() + 3, getAbsoluteX() + textWidth + 2, (getAbsoluteY() + getHeight()) - 3);
+                int textWidth = g.getFont().getWidth(drawContent);
+                g.drawLine(getAbsoluteX() + textWidth + 4, getAbsoluteY() + 3, getAbsoluteX() + textWidth + 4, (getAbsoluteY() + getHeight()) - 3);
             }
         }
         
-        g.drawString(drawContent, getAbsoluteX() + 3, getAbsoluteY() + 1);
+        g.drawString(drawContent, getAbsoluteX() + 5, getAbsoluteY() + 4);
     }
     
-    public Color getBackgroundColor()
-    {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(Color backgroundColor)
-    {
-        this.backgroundColor = backgroundColor;
-    }
-
-    public Color getBorderColor()
-    {
-        return borderColor;
-    }
-
-    public void setBorderColor(Color borderColor)
-    {
-        this.borderColor = borderColor;
-    }
-
     public Color getForegroundColor()
     {
         return foregroundColor;
@@ -198,15 +195,5 @@ public class Textbox extends Component
     public void setStretchX(boolean stretchX)
     {
         this.stretchX = stretchX;
-    }
-
-    public boolean isStretchY()
-    {
-        return stretchY;
-    }
-
-    public void setStretchY(boolean stretchY)
-    {
-        this.stretchY = stretchY;
     }
 }

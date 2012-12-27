@@ -25,7 +25,7 @@ public class KeyAdapter implements KeyListener
             Scene.getInstance().wndMiniMap.setVisible(!Scene.getInstance().wndMiniMap.isVisible());
         
         if(key == Input.KEY_ESCAPE)
-            Program.Application.exit();
+            Scene.getInstance().inGame = false;
 
         if(key == Input.KEY_F11)
         {

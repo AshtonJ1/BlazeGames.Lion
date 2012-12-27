@@ -93,7 +93,7 @@ public class PlayerMovement implements Runnable
                 }
                 catch(Exception e)
                 {
-                    e.printStackTrace();
+                    
                 }
             //}
         }

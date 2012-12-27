@@ -13,6 +13,7 @@ import UI.Components.Map;
 import UI.Components.Textbox;
 import UI.Window;
 import UI.WindowManager;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -43,7 +45,8 @@ public class Scene extends BasicGame
         return Instance;
     }
     
-    boolean inGame = false;
+    public boolean inGame = false;
+    public float bgAlpha = 1F;
     
     public TiledMap mapDefault;
     public Camera Cam;
@@ -114,6 +117,8 @@ public class Scene extends BasicGame
         this.gc = gc;
         
         gc.getGraphics().setAntiAlias(true);
+        //gc.setDefaultFont(new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true));
+        //gc.getGraphics().setFont(new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true));
         
         fullMapImage = new Image("Resource/Maps/testmap.png");
         backgroundImage = new Image("Resource/Images/background.png");
@@ -205,14 +210,14 @@ public class Scene extends BasicGame
         wndMiniMap = new Window("Minimap", Program.Application.getWidth() - (currentMapImage.getWidth() + 14 + 5), 5, currentMapImage.getWidth() + 40, currentMapImage.getHeight() + 60);
         wndMiniMap.addComponent(new Map(currentMapImage, 0, 0));
         
-        Button btnMapZoomIn = new Button("+", (wndMiniMap.getWidth() - (62 + 20)), -21, 15, 15);
-        Button btnMapZoomOut = new Button("-", (wndMiniMap.getWidth() - 62), -21, 15, 15);
+        Button btnMapZoomIn = new Button("+", (wndMiniMap.getWidth() - (62 + 20)), -21, 15);
+        Button btnMapZoomOut = new Button("-", (wndMiniMap.getWidth() - 62), -21, 15);
         
         btnMapZoomIn.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale > 1) MapScale--; }});
         btnMapZoomOut.addActionEvent(new ActionEvent("onClick") { public void actionPerformed() { if(MapScale < 16) MapScale++; }});
         
-        wndMiniMap.addComponent(btnMapZoomIn).
-            addComponent(btnMapZoomOut).
+        wndMiniMap./*addComponent(btnMapZoomIn).
+            addComponent(btnMapZoomOut).*/
             addActionEvent(new ActionEvent("onRender")
             {
                 @Override
@@ -242,7 +247,7 @@ public class Scene extends BasicGame
         wndLogin = new Window("Login", 200, 200, 250, 175);
         wndLogin.Center();
         
-        Textbox txtAccount = new Textbox(15, 10, 165, 20, false);
+        Textbox txtAccount = new Textbox(15, 10, 165, false);
         txtAccount.setStretchX(true);
         txtAccount.addActionEvent(new ActionEvent("onReturn")
         {
@@ -255,7 +260,7 @@ public class Scene extends BasicGame
             }
         });
         
-        Textbox txtPassword = new Textbox(15, 40, 165, 20, true);
+        Textbox txtPassword = new Textbox(15, 40, 165, true);
         txtPassword.setStretchX(true);
         txtPassword.addActionEvent(new ActionEvent("onReturn")
         {
@@ -268,7 +273,7 @@ public class Scene extends BasicGame
             }
         });
         
-        Button btnLogin = new Button("Login", 15, 70, 165, 20);
+        Button btnLogin = new Button("Login", 15, 70, 165);
         btnLogin.setStretchX(true);
         btnLogin.addActionEvent(new ActionEvent("onLeftClick")
         {
@@ -306,48 +311,20 @@ public class Scene extends BasicGame
         {
             if(!inGame)
             {
-                g.drawImage(backgroundImage.getScaledCopy(Program.Application.getWidth(), Program.Application.getHeight()), 0, 0);
-                
                 if(wndMiniMap.isVisible())
                     wndMiniMap.setVisible(false);
+                if(!wndLogin.isVisible())
+                    wndLogin.setVisible(true);
             }
             else
             {
                 if(!wndMiniMap.isVisible())
                     wndMiniMap.setVisible(true);
-                
-                for (int i=0; i<lights.size(); i++)
-                {
-                    Light light = lights.get(i);
-                                               
-                    //set up our alpha map for the light
-                    g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-                    //clear the alpha map before we draw to it...
-                    g.clearAlphaMap();
-                       
-                    //centre the light
-                    int alphaW = (int)(alphaMap.getWidth() * light.scale);
-                    int alphaH = (int)(alphaMap.getHeight() * light.scale);
-                    int alphaX = (int)(light.x - alphaW/2f);
-                    int alphaY = (int)(light.y - alphaH/2f);
-                       
-                    //we apply the light alpha here; RGB will be ignored
-                    sharedColor.a = light.alpha;
-                       
-                    //draw the alpha map
-                    alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
-                       
-                    //start blending in our tiles
-                    g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-                      
-                    //we'll clip to the alpha rectangle, since anything outside of it will be transparent
-                    g.setClip(alphaX, alphaY, alphaW, alphaH);
-                       
-                    light.tint.bind();
-                }
-                
-                
-                Cam.Render(g);         
+                if(wndLogin.isVisible())
+                    wndLogin.setVisible(false);
+            }
+            
+            Cam.Render(g);         
                 mapDefault.render(0, 0);
 
                 for(Monster mob : mobs)
@@ -380,15 +357,26 @@ public class Scene extends BasicGame
                 map.setFullMapY(miniMapY);
 
                 g.resetTransform();
-
-                //g.setColor(new Color(0, 0, 0, 150));
-                //g.fill(new Rectangle(0, 0, Program.Application.getWidth(), Program.Application.getHeight()));
-                
+            
+            if(inGame)
+            {
                 g.setColor(Color.white);
                 g.drawString("X: " + player.getX() + " Y: " + player.getY(), 10, 30);
                 g.drawString("Health: ", 10, 50);
                 g.setColor(Color.red);
                 g.fillRect(80, 55, 100, 10);
+            }
+            
+            if(inGame && bgAlpha > 0)
+                bgAlpha -= 0.02;
+            if(!inGame && bgAlpha < 1)
+                bgAlpha += 0.02;
+            
+            if(bgAlpha > 0)
+            {
+                Image bg = backgroundImage.getScaledCopy(Program.Application.getWidth(), Program.Application.getHeight());
+                bg.setAlpha(bgAlpha);
+                g.drawImage(bg, 0, 0);
             }
             
             WindowManager.RenderWindows(g);

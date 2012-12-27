@@ -3,12 +3,14 @@ package UI;
 import Game.Program;
 import Game.Scene;
 import UI.Components.Component;
+import java.awt.Font;
 import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 /**
  *
@@ -18,7 +20,7 @@ public class Window
 {
     private float X, Y;
     private int Width, Height, StartX, StartY, FocusedComponent = -1;
-    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false, showMin, showClose;
+    private boolean isFirstRender, isVisible, isMouseDown, isPinned, isComponentActive = false, hasFocus = false, showMin, showClose, titleVisible = true;
 
     private String WindowTitle;
 
@@ -27,8 +29,10 @@ public class Window
     private Input input;
     
     private Image bgTopLeft, bgTopCenter, bgTopRight, bgCenterLeft, bgCenterRight, bgBottomLeft, bgBottomCenter, bgBottomRight, bg, btnClose, btnMin;
+    private TrueTypeFont titleFont;
+    private Color titleColor;
     
-    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose) throws SlickException
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose, boolean titleVisible) throws SlickException
     {
         this.bgTopLeft = new Image("Resource/UI/wnd_top_left.png");
         this.bgTopCenter = new Image("Resource/UI/wnd_top_center.png");
@@ -42,6 +46,9 @@ public class Window
         this.btnClose = new Image("Resource/UI/wnd_btn_close.png");
         this.btnMin = new Image("Resource/UI/wnd_btn_min.png");
         
+        this.titleFont = new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true);
+        this.titleColor = new Color(194, 192, 180);
+        this.titleVisible = titleVisible;
         this.WindowTitle = WindowTitle;
         
         setLocation(X, Y);
@@ -57,14 +64,19 @@ public class Window
         input = Scene.getInstance().input;
     }
     
+    public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose) throws SlickException
+    {
+        this(WindowTitle, X, Y, Width, Height, isPinned, showMin, showClose, true);
+    }
+    
     public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned) throws SlickException
     {
-        this(WindowTitle, X, Y, Width, Height, isPinned, false, true);
+        this(WindowTitle, X, Y, Width, Height, isPinned, false, true, true);
     }
     
     public Window(String WindowTitle, float X, float Y, int Width, int Height) throws SlickException
     {
-        this(WindowTitle, X, Y, Width, Height, false, false, true);
+        this(WindowTitle, X, Y, Width, Height, false, false, true, true);
     }
     
     public boolean hasFocus()
@@ -364,42 +376,11 @@ public class Window
             if(showClose)
                 btnClose.draw((X + Width - 15) - btnClose.getWidth(), Y + 12);
             
-            /*g.setColor(new Color(24, 24, 24));
-            g.drawRoundRect(X, Y, Width, Height, Radius);
-            g.setColor(new Color(98, 98, 98));
-            g.drawRoundRect(X + 1, Y + 1, Width - 2, Height - 2, Radius);
-            g.setColor(new Color(7, 17, 26));
-            g.fillRoundRect(X + 2, Y + 2, Width - 3, Height - 3, Radius);
-            g.setColor(new Color(12, 32, 50));
-            g.fillRoundRect(X + 7, Y + 7, Width - 13, Height - 13, Radius);*/
+            if(titleVisible)
+                titleFont.drawString(X + ((getWidth() / 2) - (titleFont.getWidth(WindowTitle) / 2)), Y + 15, WindowTitle, new Color(194, 192, 180));
             
-            /*if(Radius == 0)
-            {
-                //Draw Close Button
-                
-                g.setColor(new Color(7, 17, 26));
-                g.drawLine(X + 3, Y + 29, (X + Width) - 3, Y + 29);
-                g.drawLine(X + 3, Y + 28, (X + Width) - 3, Y + 28);
-                g.drawLine(X + 3, Y + 27, (X + Width) - 3, Y + 27);
-                g.drawLine(X + 3, Y + 26, (X + Width) - 3, Y + 26);
-
-                g.setColor(Color.white);
-                g.drawString(this.WindowTitle, X + 10, Y + 7);
-
-                for(Component component : Components)
-                {
-                    component.Render(g, this.X + 8, this.Y + 30, this.Width, this.Height);
-                    component.doAction("onRender");
-                }
-            }
-            else
-            {
-                for(Component component : Components)
-                {
-                    component.Render(g, this.X, this.Y, this.Width, this.Height);
-                    component.doAction("onRender");
-                }
-            }*/
+            //g.setColor(Color.gray);
+            //g.drawString(this.WindowTitle, X + ((getWidth() / 2) - (g.getFont().getWidth(WindowTitle) / 2)), Y + 15);
             
             for(Component component : Components)
             {
@@ -447,5 +428,25 @@ public class Window
     {
         this.showClose = showClose;
         return this;
+    }
+    
+    public Color getTitleColor()
+    {
+        return titleColor;
+    }
+
+    public void setTitleColor(Color titleColor)
+    {
+        this.titleColor = titleColor;
+    }
+
+    public boolean isTitleVisible()
+    {
+        return titleVisible;
+    }
+
+    public void setTitleVisible(boolean titleVisible)
+    {
+        this.titleVisible = titleVisible;
     }
 }
