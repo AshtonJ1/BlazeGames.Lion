@@ -2,6 +2,8 @@ package UI;
 
 import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -10,7 +12,53 @@ import org.newdawn.slick.Graphics;
 public class WindowManager
 {
     private static ArrayList<Window> Windows = new ArrayList<>(); 
-
+    
+    public static Image wndBgTopLeft,
+            wndBgTopCenter,
+            wndBgTopRight, 
+            wndBgCenterLeft, 
+            wndBgCenterRight, 
+            wndBgBottomLeft, 
+            wndBgBottomCenter, 
+            wndBgBottomRight, 
+            wndBg, 
+            wndBtnClose, 
+            wndBtnMin,
+            btnBgLeft, 
+            btnBgCenter, 
+            btnBgRight, 
+            btnBgLeftHover, 
+            btnBgCenterHover, 
+            btnBgRightHover, 
+            btnBgLeftPressed, 
+            btnBgCenterPressed, 
+            btnBgRightPressed;
+    
+    public static void init() throws SlickException
+    {
+        wndBgTopLeft = new Image("Resource/UI/wnd_top_left.png");
+        wndBgTopCenter = new Image("Resource/UI/wnd_top_center.png");
+        wndBgTopRight = new Image("Resource/UI/wnd_top_right.png");
+        wndBgCenterLeft = new Image("Resource/UI/wnd_center_left.png");
+        wndBgCenterRight = new Image("Resource/UI/wnd_center_right.png");
+        wndBgBottomLeft = new Image("Resource/UI/wnd_bottom_left.png");
+        wndBgBottomCenter = new Image("Resource/UI/wnd_bottom_center.png");
+        wndBgBottomRight = new Image("Resource/UI/wnd_bottom_right.png");
+        wndBg = new Image("Resource/UI/wnd_bg.png");
+        wndBtnClose = new Image("Resource/UI/wnd_btn_close.png");
+        wndBtnMin = new Image("Resource/UI/wnd_btn_min.png");
+        
+        btnBgLeft = new Image("Resource/UI/btn_1_left.png");
+        btnBgCenter = new Image("Resource/UI/btn_1_center.png");
+        btnBgRight = new Image("Resource/UI/btn_1_right.png");
+        btnBgLeftHover = new Image("Resource/UI/btn_1_left_hover.png");
+        btnBgCenterHover = new Image("Resource/UI/btn_1_center_hover.png");
+        btnBgRightHover = new Image("Resource/UI/btn_1_right_hover.png");
+        btnBgLeftPressed = new Image("Resource/UI/btn_1_left_press.png");
+        btnBgCenterPressed = new Image("Resource/UI/btn_1_center_press.png");
+        btnBgRightPressed = new Image("Resource/UI/btn_1_right_press.png");
+    }
+    
     public static Window getWindow(String windowTitle)
     {
         for(Window wnd : Windows)

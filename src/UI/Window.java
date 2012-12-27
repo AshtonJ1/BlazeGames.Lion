@@ -28,24 +28,11 @@ public class Window
     private ArrayList<ActionEvent> ActionEvents = new ArrayList<>();
     private Input input;
     
-    private Image bgTopLeft, bgTopCenter, bgTopRight, bgCenterLeft, bgCenterRight, bgBottomLeft, bgBottomCenter, bgBottomRight, bg, btnClose, btnMin;
     private TrueTypeFont titleFont;
     private Color titleColor;
     
     public Window(String WindowTitle, float X, float Y, int Width, int Height, boolean isPinned, boolean showMin, boolean showClose, boolean titleVisible) throws SlickException
     {
-        this.bgTopLeft = new Image("Resource/UI/wnd_top_left.png");
-        this.bgTopCenter = new Image("Resource/UI/wnd_top_center.png");
-        this.bgTopRight = new Image("Resource/UI/wnd_top_right.png");
-        this.bgCenterLeft = new Image("Resource/UI/wnd_center_left.png");
-        this.bgCenterRight = new Image("Resource/UI/wnd_center_right.png");
-        this.bgBottomLeft = new Image("Resource/UI/wnd_bottom_left.png");
-        this.bgBottomCenter = new Image("Resource/UI/wnd_bottom_center.png");
-        this.bgBottomRight = new Image("Resource/UI/wnd_bottom_right.png");
-        this.bg = new Image("Resource/UI/wnd_bg.png");
-        this.btnClose = new Image("Resource/UI/wnd_btn_close.png");
-        this.btnMin = new Image("Resource/UI/wnd_btn_min.png");
-        
         this.titleFont = new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true);
         this.titleColor = new Color(194, 192, 180);
         this.titleVisible = titleVisible;
@@ -278,13 +265,13 @@ public class Window
     
     public final Window setSize(int Width, int Height)
     {
-        if(Width < bgTopLeft.getWidth() + bgTopCenter.getWidth() + bgTopRight.getWidth())
-            this.Width = bgTopLeft.getWidth() + bgTopCenter.getWidth() + bgTopRight.getWidth();
+        if(Width < WindowManager.wndBgTopLeft.getWidth() + WindowManager.wndBgTopCenter.getWidth() + WindowManager.wndBgTopRight.getWidth())
+            this.Width = WindowManager.wndBgTopLeft.getWidth() + WindowManager.wndBgTopCenter.getWidth() + WindowManager.wndBgTopRight.getWidth();
         else
             this.Width = Width;
         
-        if(Height < bgTopLeft.getHeight() + bgCenterLeft.getHeight() + bgBottomLeft.getHeight())
-            this.Height = bgTopLeft.getHeight() + bgCenterLeft.getHeight() + bgBottomLeft.getHeight();
+        if(Height < WindowManager.wndBgTopLeft.getHeight() + WindowManager.wndBgCenterLeft.getHeight() + WindowManager.wndBgBottomLeft.getHeight())
+            this.Height = WindowManager.wndBgTopLeft.getHeight() + WindowManager.wndBgCenterLeft.getHeight() + WindowManager.wndBgBottomLeft.getHeight();
         else
             this.Height = Height;
         
@@ -357,24 +344,24 @@ public class Window
                 isFirstRender = true;
             }
             
-            bg.draw(X + 14, Y + 14, Width - 28, Height - 28);
+            WindowManager.wndBg.draw(X + 14, Y + 14, Width - 28, Height - 28);
             
-            bgTopLeft.draw(X, Y);
-            bgTopCenter.draw(X + bgTopLeft.getWidth(), Y, Width - (bgTopLeft.getWidth() + bgTopRight.getWidth()), bgTopCenter.getHeight());
-            bgTopRight.draw((X + Width) - bgTopRight.getWidth(), Y);
+            WindowManager.wndBgTopLeft.draw(X, Y);
+            WindowManager.wndBgTopCenter.draw(X + WindowManager.wndBgTopLeft.getWidth(), Y, Width - (WindowManager.wndBgTopLeft.getWidth() + WindowManager.wndBgTopRight.getWidth()), WindowManager.wndBgTopCenter.getHeight());
+            WindowManager.wndBgTopRight.draw((X + Width) - WindowManager.wndBgTopRight.getWidth(), Y);
             
-            bgCenterLeft.draw(X, Y + bgTopLeft.getHeight(), bgCenterLeft.getWidth(), Height - (bgTopLeft.getHeight() + bgBottomLeft.getHeight()));
-            bgCenterRight.draw((X + Width) - bgCenterRight.getWidth(), Y + bgTopRight.getHeight(), bgCenterRight.getWidth(), Height - (bgTopRight.getHeight() + bgBottomRight.getHeight()));
+            WindowManager.wndBgCenterLeft.draw(X, Y + WindowManager.wndBgTopLeft.getHeight(), WindowManager.wndBgCenterLeft.getWidth(), Height - (WindowManager.wndBgTopLeft.getHeight() + WindowManager.wndBgBottomLeft.getHeight()));
+            WindowManager.wndBgCenterRight.draw((X + Width) - WindowManager.wndBgCenterRight.getWidth(), Y + WindowManager.wndBgTopRight.getHeight(), WindowManager.wndBgCenterRight.getWidth(), Height - (WindowManager.wndBgTopRight.getHeight() + WindowManager.wndBgBottomRight.getHeight()));
             
-            bgBottomLeft.draw(X, (Y + Height) - bgBottomLeft.getHeight());
-            bgBottomCenter.draw(X + bgBottomLeft.getWidth(), (Y + Height) - bgBottomCenter.getHeight(), Width - (bgBottomLeft.getWidth() + bgBottomRight.getWidth()), bgBottomCenter.getHeight());
-            bgBottomRight.draw((X + Width) - bgBottomRight.getWidth(), (Y + Height) - bgBottomRight.getHeight());
+            WindowManager.wndBgBottomLeft.draw(X, (Y + Height) - WindowManager.wndBgBottomLeft.getHeight());
+            WindowManager.wndBgBottomCenter.draw(X + WindowManager.wndBgBottomLeft.getWidth(), (Y + Height) - WindowManager.wndBgBottomCenter.getHeight(), Width - (WindowManager.wndBgBottomLeft.getWidth() + WindowManager.wndBgBottomRight.getWidth()), WindowManager.wndBgBottomCenter.getHeight());
+            WindowManager.wndBgBottomRight.draw((X + Width) - WindowManager.wndBgBottomRight.getWidth(), (Y + Height) - WindowManager.wndBgBottomRight.getHeight());
             
             if(showMin)
-                btnMin.draw((X + Width - (btnClose.getWidth() + 13)) - btnMin.getWidth(), Y + 12);
+                WindowManager.wndBtnMin.draw((X + Width - (WindowManager.wndBtnClose.getWidth() + 13)) - WindowManager.wndBtnMin.getWidth(), Y + 12);
             
             if(showClose)
-                btnClose.draw((X + Width - 15) - btnClose.getWidth(), Y + 12);
+                WindowManager.wndBtnClose.draw((X + Width - 15) - WindowManager.wndBtnClose.getWidth(), Y + 12);
             
             if(titleVisible)
                 titleFont.drawString(X + ((getWidth() / 2) - (titleFont.getWidth(WindowTitle) / 2)), Y + 15, WindowTitle, new Color(194, 192, 180));

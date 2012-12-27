@@ -115,10 +115,8 @@ public class Scene extends BasicGame
     public void init(GameContainer gc) throws SlickException
     {
         this.gc = gc;
-        
         gc.getGraphics().setAntiAlias(true);
-        //gc.setDefaultFont(new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true));
-        //gc.getGraphics().setFont(new TrueTypeFont(new Font("Times New Roman", Font.BOLD, 17), true));
+        WindowManager.init();
         
         fullMapImage = new Image("Resource/Maps/testmap.png");
         backgroundImage = new Image("Resource/Images/background.png");

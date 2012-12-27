@@ -2,6 +2,7 @@ package UI.Components;
 
 import Game.Program;
 import Game.Scene;
+import UI.WindowManager;
 import java.awt.MouseInfo;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,26 +25,9 @@ public class Button extends Component
     private int Height = 38;
     private boolean isMouseDown, isMouseHover, stretchX, stretchY;
     private Color backgroundColor = Color.lightGray, backgroundPressedColor = Color.darkGray, backgroundHoverColor = Color.gray, borderColor = Color.black, foregroundColor = Color.white;
-    private Image bgLeft, bgCenter, bgRight, bgLeftHover, bgCenterHover, bgRightHover, bgLeftPressed, bgCenterPressed, bgRightPressed;
     
     public Button(String Content, int X, int Y, int Width, int XPadding, int YPadding, boolean Enabled) throws SlickException
     {
-        try
-        {
-            this.bgLeft = new Image("Resource/UI/btn_1_left.png");
-            this.bgCenter = new Image("Resource/UI/btn_1_center.png");
-            this.bgRight = new Image("Resource/UI/btn_1_right.png");
-            this.bgLeftHover = new Image("Resource/UI/btn_1_left_hover.png");
-            this.bgCenterHover = new Image("Resource/UI/btn_1_center_hover.png");
-            this.bgRightHover = new Image("Resource/UI/btn_1_right_hover.png");
-            this.bgLeftPressed = new Image("Resource/UI/btn_1_left_press.png");
-            this.bgCenterPressed = new Image("Resource/UI/btn_1_center_press.png");
-            this.bgRightPressed = new Image("Resource/UI/btn_1_right_press.png");
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
         this.isMouseDown = false;
         
         setContent(Content);
@@ -79,8 +63,8 @@ public class Button extends Component
     @Override
     public final void setSize(int Width, int Height)
     {
-        if(Width < bgLeft.getWidth() + bgCenter.getWidth() + bgRight.getWidth())
-            Width = bgLeft.getWidth() + bgCenter.getWidth() + bgRight.getWidth();
+        if(Width < WindowManager.btnBgLeft.getWidth() + WindowManager.btnBgCenter.getWidth() + WindowManager.btnBgRight.getWidth())
+            Width = WindowManager.btnBgLeft.getWidth() + WindowManager.btnBgCenter.getWidth() + WindowManager.btnBgRight.getWidth();
         
         super.setSize(Width, this.Height);
     }
@@ -108,27 +92,27 @@ public class Button extends Component
         
         if(isMouseDown)
         {
-            bgLeftPressed.draw(getAbsoluteX(), getAbsoluteY());
-            bgCenterPressed.draw(getAbsoluteX() + bgLeft.getWidth(), getAbsoluteY(), getWidth() - (bgLeft.getWidth() + bgRight.getWidth()), bgCenter.getHeight());
-            bgRightPressed.draw(getAbsoluteX() + (getWidth() - bgRight.getWidth()), getAbsoluteY());
+            WindowManager.btnBgLeftPressed.draw(getAbsoluteX(), getAbsoluteY());
+            WindowManager.btnBgCenterPressed.draw(getAbsoluteX() + WindowManager.btnBgLeft.getWidth(), getAbsoluteY(), getWidth() - (WindowManager.btnBgLeft.getWidth() + WindowManager.btnBgRight.getWidth()), WindowManager.btnBgCenter.getHeight());
+            WindowManager.btnBgRightPressed.draw(getAbsoluteX() + (getWidth() - WindowManager.btnBgRight.getWidth()), getAbsoluteY());
 
             g.setColor(foregroundColor);
             g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding() + 1, getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding() + 1);
         }
         else if(isMouseHover)
         {
-            bgLeftHover.draw(getAbsoluteX(), getAbsoluteY());
-            bgCenterHover.draw(getAbsoluteX() + bgLeft.getWidth(), getAbsoluteY(), getWidth() - (bgLeft.getWidth() + bgRight.getWidth()), bgCenter.getHeight());
-            bgRightHover.draw(getAbsoluteX() + (getWidth() - bgRight.getWidth()), getAbsoluteY());
+            WindowManager.btnBgLeftHover.draw(getAbsoluteX(), getAbsoluteY());
+            WindowManager.btnBgCenterHover.draw(getAbsoluteX() + WindowManager.btnBgLeft.getWidth(), getAbsoluteY(), getWidth() - (WindowManager.btnBgLeft.getWidth() + WindowManager.btnBgRight.getWidth()), WindowManager.btnBgCenter.getHeight());
+            WindowManager.btnBgRightHover.draw(getAbsoluteX() + (getWidth() - WindowManager.btnBgRight.getWidth()), getAbsoluteY());
 
             g.setColor(foregroundColor);
             g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
         }
         else
         {
-            bgLeft.draw(getAbsoluteX(), getAbsoluteY());
-            bgCenter.draw(getAbsoluteX() + bgLeft.getWidth(), getAbsoluteY(), getWidth() - (bgLeft.getWidth() + bgRight.getWidth()), bgCenter.getHeight());
-            bgRight.draw(getAbsoluteX() + (getWidth() - bgRight.getWidth()), getAbsoluteY());
+            WindowManager.btnBgLeft.draw(getAbsoluteX(), getAbsoluteY());
+            WindowManager.btnBgCenter.draw(getAbsoluteX() + WindowManager.btnBgLeft.getWidth(), getAbsoluteY(), getWidth() - (WindowManager.btnBgLeft.getWidth() + WindowManager.btnBgRight.getWidth()), WindowManager.btnBgCenter.getHeight());
+            WindowManager.btnBgRight.draw(getAbsoluteX() + (getWidth() - WindowManager.btnBgRight.getWidth()), getAbsoluteY());
             
             g.setColor(foregroundColor);
             g.drawString(getContent(), getAbsoluteX() + ((getWidth() - getContentWidth()) / 2) + getXPadding(), getAbsoluteY() + ((getHeight() - getContentHeight()) / 2) + getYPadding());
