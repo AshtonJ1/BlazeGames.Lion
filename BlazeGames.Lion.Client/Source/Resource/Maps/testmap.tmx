@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="" value=""/>
+  </properties>
+  <image source="Tileset.png" width="256" height="15008"/>
+  <tile id="29">
+   <properties>
+    <property name="warp" value="3000,3000"/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="257">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="258">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="264">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="265">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="266">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="272">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="273">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="274">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="3753" name="NoWalk" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="nowalk" value="true"/>
+  </properties>
+  <image source="NoWalk.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="nowalk" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3TsVECUQBF0d1SbEiIxEhoAYzASG3cn0K4szNc8ASngXfnzdM0zaQchxOLfa7c4zxcWOxLjxQ9WvRo0aNFjxY9WvRo0aNFj5Zn6fEyX7v3rv+5x20DPfxDDz3KPZ6FHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRsnaP7+GHxX5X7gEAAAAAAACs73XYBGwDWxS8DbuA98AWBXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq0fAz7gENgC3gEfwWhM9VAnAAA
+  </data>
+ </layer>
+ <layer name="City" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2ayW/MYRyH32iTJtO/wT8k9u0guOBEUe2gy6AbuqEbuqEbutn3/S/ACWdcLJdywsVzaJPfO52aEeP3fTPzeZInmaQz00+/T9LOoc45V7nMuQNYhdWYxHRqSpyrxTqsx1TJ4ucI53aUOrcTd5Vmf+5LbvgKX6fdsob712Id1mMqQ48GXtOITdiMLZH36OfxAA7iEA4XcavddNiDFTn0eMOd3uK7tHs1cP9GbMJmbMHjeAJPzrdp5TVt2I4d2Bl5jxEej+IYjuNEEfeookM1JnPosRSt3LwN27EDO/EUnsYz8z26uHE39mAv9kVuPsnjKZzGGZwt4h75oIubd2MP9mIfnsVzeD7D7y7xf+nn5gM4iEM4jBfwIl5Sj9gZ4eajOIbjOIGX8QpeVY/YmeTmUziNMziL1/A63lCP2LnJzW/hbbyDd/Ee3scH6hE7D7n5I3yMT/ApPsPn+CLPPd6XOfchix/L8vs9xdLMcesvWfykHrGx0OM7/krzm3rEzlzk5hXlzu3Ffbi/3P+aiIfozZM0OIiH8LB6mBC9eYoGR/AoHlMPE/50c/WIn4Wbf83wOfezesSOPu+GxY8Mn3PT/akeQbHceoAQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCH+mZUJ51YUgKsT1pfMDxv5OdYXgBvUIyjVIyzVIyzVIyzVIyzVIyzVIyzVIyzVIyw3q0dQqkdYFnOPNbglINcWeY/Q/nauU4+gUA/r1T7qYb3aRz2sV/uoh/VqH/WwXu2jHtarfdTDerWPeliv9lEP69U+6mG92kc9rFf7qIf1ah/1sF7tox7Wq33Uw3q1j3pYr/ZRD+vVPuphvdpHPaxX+6iH9Wof9bBe7aMe1qt9Cq3HphyM9lgVoIXSY2vC/v8LM7ntL92OvwHhQDcCQJwAAA==
+  </data>
+ </layer>
+ <layer name="NoWalk" width="100" height="100">
+  <properties>
+   <property name="norender" value="true"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3cQW7CUBAFQU6QI3B/bpn1RCE4lpJpoEr6O1uyX8ssuX1cLjcnf7766Zoj97+L325wvXPvozZ6HHd9fMm39Gg5+9vF39CjRY8WDVo2evgm79OjZePd9bhPjxY9WvRo0aNFjxY9WvRo0aOl+u7FZ/oP1R7vSo8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVpepcfR/xh4lvPstvfTY9reT49pez89pu399Ji299Nj2t5Pj2l7Pz2m7f30mLb302Pa3k+PaXs/Pabt/fSYtvfTY9reT4/pFd67+lxn6NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLWd7OM6j8wlviWTbQJwAAA==
+  </data>
+ </layer>
+</map>
